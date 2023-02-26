@@ -4,26 +4,62 @@ using UnityEngine;
 
 public class CharacterController2D : MonoBehaviour
 {
-    public float MovementSpeed = 1;
-    public float JumpForce = 1;
+    private Collision coll;
+    public Rigidbody2D rb;
 
-    private Rigidbody2D _rigidbody;
+    public float speed = 5f;
+    public float jumpForce = 8f;
+    public float slideSpeed = 3f;
+    public bool canMove;
+    public bool wallSlide;
 
-    // Start is called before the first frame update
     void Start()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<Collision>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        var movement = Input.GetAxis("Horizontal");
-        transform.position += new Vector3(movement, 0, 0) * Time.deltaTime * MovementSpeed;
+        float x = Input.GetAxis("Horizontal");
+        float y = Input.GetAxis("Vertical");
 
-        if(Input.GetButtonDown("Jump") && Mathf.Abs(_rigidbody.velocity.y) < 0.001f)
+        Vector2 dir = new Vector2(x, y);
+
+        Walk(dir);
+
+        if (Input.GetButtonDown("Jump"))
         {
-            _rigidbody.AddForce(new Vector2(0, JumpForce), ForceMode2D.Impulse);
+            if(coll.onGround) Jump();
         }
+
+        if(coll.onWall && !coll.onGround)
+        {
+            wallSlide = true;
+            WallSide();
+        }
+
+        if(!coll.onWall || coll.onGround)
+        {
+            wallSlide = false;
+        }
+    }
+
+    private void WallSide()
+    {
+       
+
+        rb.velocity = new Vector2(rb.velocity.x, -slideSpeed);
+    }
+
+    private void Walk(Vector2 dir)
+    {
+        rb.velocity = (new Vector2(dir.x * speed, rb.velocity.y));
+    }
+
+    private void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.velocity += Vector2.up * jumpForce;
     }
 }

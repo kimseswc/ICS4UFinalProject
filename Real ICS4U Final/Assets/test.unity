@@ -417,6 +417,7 @@ GameObject:
   - component: {fileID: 1027820715}
   - component: {fileID: 1027820714}
   - component: {fileID: 1027820718}
+  - component: {fileID: 1027820719}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -436,8 +437,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d12a5f784769483ca889dfa4edb1c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 8
-  JumpForce: 8
+  rb: {fileID: 1027820718}
+  speed: 5
+  jumpForce: 6.7
+  slideSpeed: 3
+  canMove: 0
+  wallSlide: 0
 --- !u!61 &1027820715
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -552,6 +557,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1027820719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027820713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 574c2ef7f23994783bb3165b7350ce41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  onGround: 0
+  onWall: 0
+  onLeftWall: 0
+  onRightWall: 0
+  wallSide: 0
+  bottomOffset: {x: 0, y: -0.65}
+  rightOffset: {x: 0.3, y: 0}
+  leftOffset: {x: -0.3, y: 0}
+  collisionRadius: 0.05
 --- !u!1 &1407601624
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +593,7 @@ GameObject:
   - component: {fileID: 1407601628}
   - component: {fileID: 1407601627}
   - component: {fileID: 1407601626}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
