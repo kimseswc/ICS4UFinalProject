@@ -14,6 +14,7 @@ public class CharacterController2D : MonoBehaviour
     public float slideSpeed = 3f;
     public float attackRange = 5f;
     public int attackDamage = 5;
+    public int side = 1;
     public bool canMove;
     public bool wallSlide;
 
@@ -37,7 +38,7 @@ public class CharacterController2D : MonoBehaviour
             if(coll.onGround) Jump();
         }
 
-        if(coll.onWall && !coll.onGround)
+        if(coll.onWall && !coll.onGround && x != 0)
         {
             wallSlide = true;
             WallSide();
@@ -51,6 +52,17 @@ public class CharacterController2D : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             Attack();
+        }
+
+        if(x > 0)
+        {
+            if(side == -1) Flip();
+            side = 1;
+        }
+        if(x < 0)
+        {
+            if(side == 1) Flip();
+            side = -1;
         }
     }
 
@@ -74,9 +86,10 @@ public class CharacterController2D : MonoBehaviour
 
     private void Attack()
     {
+
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
-        foreach(Collider2D enemy in hitEnemies)
+        foreach (Collider2D enemy in hitEnemies)
         {
             Debug.Log("hit");
 
@@ -91,6 +104,16 @@ public class CharacterController2D : MonoBehaviour
         if(attackPoint == null) return;
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    private void Flip()
+    {
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+        Vector3 theScale2 = attackPoint.localScale;
+        theScale2.x *= -1;
+        attackPoint.localScale = theScale2;
     }
 
 
