@@ -443,10 +443,11 @@ MonoBehaviour:
     m_Bits: 128
   attackPoint: {fileID: 1748675080}
   speed: 5
-  jumpForce: 6.7
+  jumpForce: 8
   slideSpeed: 3
   attackRange: 0.81
-  attackDamage: 5
+  attackDamage: 20
+  side: 1
   canMove: 0
   wallSlide: 0
 --- !u!61 &1027820715
@@ -558,7 +559,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -585,9 +586,9 @@ MonoBehaviour:
   onRightWall: 0
   wallSide: 0
   bottomOffset: {x: 0, y: -0.65}
-  rightOffset: {x: 0.3, y: 0}
-  leftOffset: {x: -0.3, y: 0}
-  collisionRadius: 0.05
+  rightOffset: {x: 0.3, y: -0.65}
+  leftOffset: {x: -0.3, y: -0.65}
+  collisionRadius: 0.1
 --- !u!1 &1407601624
 GameObject:
   m_ObjectHideFlags: 0
@@ -1175,6 +1176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed543307917ed4afc964deb51f297fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  self: {fileID: 1696719505}
   maxHealth: 100
 --- !u!1 &1748675079
 GameObject:
