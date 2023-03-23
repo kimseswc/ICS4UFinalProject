@@ -7,12 +7,15 @@ public class CharacterController2D : MonoBehaviour
     private Collision coll;
     public Rigidbody2D rb;
     public LayerMask enemyLayer;
+    public LayerMask interactLayer;
     public Transform attackPoint;
+    public Transform interactPoint;
 
     public float speed = 5f;
     public float jumpForce = 8f;
     public float slideSpeed = 3f;
     public float attackRange = 5f;
+    public float interactRange = 8f;
     public int attackDamage = 5;
     public int side = 1;
     public bool canMove;
@@ -54,6 +57,11 @@ public class CharacterController2D : MonoBehaviour
             Attack();
         }
 
+        if(Input.GetButtonDown("Fire2"))
+        {
+            Interact();
+        }
+
         if(x > 0)
         {
             if(side == -1) Flip();
@@ -91,19 +99,27 @@ public class CharacterController2D : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log("hit");
-
             enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
         }
+    }
 
-        
+    private void Interact()
+    {
+        Collider2D[] interactNPC = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, interactLayer);
+
+        foreach(Collider2D NPC in interactNPC)
+        {
+            NPC.GetComponent<Shop>().OpenShop();
+        }
     }
 
     private void OnDrawGizmosSelected()
     {
         if(attackPoint == null) return;
+        if (interactPoint == null) return;
 
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        Gizmos.DrawWireSphere((Vector2)transform.position, interactRange);
     }
 
     private void Flip()
