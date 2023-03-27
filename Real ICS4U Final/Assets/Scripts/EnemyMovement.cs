@@ -45,6 +45,9 @@ public class EnemyMovement : MonoBehaviour
                 Walk(new Vector2(-0.3f, 0));
             }
         }
+
+        //if in attack range for certain time
+        //attack, damage player
     }
 
     private void Walk(Vector2 dir)

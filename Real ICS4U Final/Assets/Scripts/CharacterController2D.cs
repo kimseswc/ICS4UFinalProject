@@ -12,14 +12,18 @@ public class CharacterController2D : MonoBehaviour
     public Transform interactPoint;
 
     public float speed = 5f;
+    public float dashSpeed = 5f;
     public float jumpForce = 8f;
     public float slideSpeed = 3f;
     public float attackRange = 5f;
     public float interactRange = 8f;
     public int attackDamage = 5;
     public int side = 1;
+ 
     public bool canMove;
     public bool wallSlide;
+    private bool isDashing;
+    private bool hasDashed;
 
     void Start()
     {
@@ -31,14 +35,16 @@ public class CharacterController2D : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
+        float xRaw = Input.GetAxisRaw("Horizontal");
+        float yRaw = Input.GetAxisRaw("Vertical");
 
         Vector2 dir = new Vector2(x, y);
 
-        Walk(dir);
+        if(!isDashing) Walk(dir);
 
         if (Input.GetButtonDown("Jump"))
         {
-            if(coll.onGround) Jump();
+            if(coll.onGround && !isDashing) Jump();
         }
 
         if(coll.onWall && !coll.onGround && x != 0)
@@ -55,12 +61,23 @@ public class CharacterController2D : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             Attack();
+            
         }
 
-        if(Input.GetButtonDown("Fire2"))
-        {
-            Interact();
+    
+        if(Input.GetButtonDown("Fire2") && !hasDashed) {
+            Debug.Log("Fire2");
+            if(xRaw != 0 || yRaw != 0)
+            {
+                Dash(xRaw, yRaw);
+            }
         }
+
+        if(coll.onGround)
+        {
+            hasDashed = false;
+        }
+
 
         if(x > 0)
         {
@@ -72,6 +89,28 @@ public class CharacterController2D : MonoBehaviour
             if(side == 1) Flip();
             side = -1;
         }
+    }
+
+    private void Dash(float x, float y)
+    {
+        Debug.Log(x.ToString() + " " + y.ToString());
+        hasDashed = true;
+        rb.velocity = Vector2.zero;
+        Vector2 dir = new Vector2(x, y);
+
+        rb.velocity += dir.normalized * dashSpeed;
+        StartCoroutine(DashWait(x, y));
+    }
+
+    IEnumerator DashWait(float x, float y)
+    {
+        if((x == 1 || x == -1) && y == 0) rb.gravityScale = 0;
+        isDashing = true;
+
+        yield return new WaitForSeconds(.3f);
+
+        rb.gravityScale = 1.5f;
+        isDashing = false;
     }
 
     private void WallSide()
