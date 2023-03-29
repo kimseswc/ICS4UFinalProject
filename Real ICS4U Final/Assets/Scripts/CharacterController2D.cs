@@ -11,6 +11,7 @@ public class CharacterController2D : MonoBehaviour
     public Transform attackPoint;
     public Transform interactPoint;
 
+    public int money = 100;
     public float speed = 5f;
     public float dashSpeed = 5f;
     public float jumpForce = 8f;
@@ -171,6 +172,17 @@ public class CharacterController2D : MonoBehaviour
         attackPoint.localScale = theScale2;
     }
 
+    public void TrySpend(int itemCost)
+    {
+        if(money >= itemCost)
+        {
+            money = money - itemCost;
+        }
+        else
+        {
+            Debug.Log("need more money");
+        }
+    }
 
 
 }

@@ -6,6 +6,7 @@ using TMPro;
 
 public class UI_Shop : MonoBehaviour
 {
+    public Collider2D player;
     private Transform container;
     private Transform shopItemTemplate;
 
@@ -35,12 +36,14 @@ public class UI_Shop : MonoBehaviour
         shopItemTransform.Find("itemImage").GetComponent<Image>().sprite = itemSprite;
         shopItemTransform.gameObject.SetActive(true);
 
-        shopItemTransform.GetComponent<Button>().onClick.AddListener(TryBuyItem);
+        shopItemTransform.GetComponent<Button>().onClick.AddListener(delegate { TryBuyItem(itemType, itemCost); });
 
     }
 
-    private void TryBuyItem()
+    private void TryBuyItem(ShopItemList.ItemType itemType, int itemCost)
     {
-        Debug.Log("Buy");
+    
+        player.GetComponent<CharacterController2D>().TrySpend(itemCost);
+
     }
 }
