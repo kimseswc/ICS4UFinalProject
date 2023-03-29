@@ -18,19 +18,29 @@ public class UI_Shop : MonoBehaviour
 
     private void Start()
     {
-        CreateItemButton(ShopItemList.GetSprite(ShopItemList.ItemType.Armor_1), "Armor 1", ShopItemList.GetCost(ShopItemList.ItemType.Armor_1), 0);
-        //    CreateItemButton(ShopItemList.GetSprite(ShopItemList.ItemType.Armor_2), "Armor 2", ShopItemList.GetCost(ShopItemList.ItemType.Armor_2), 1);
+        CreateItemButton(ShopItemList.ItemType.Armor_1, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_1), "Armor 1", ShopItemList.GetCost(ShopItemList.ItemType.Armor_1), 0);
+        CreateItemButton(ShopItemList.ItemType.Armor_2, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_2), "Armor 2", ShopItemList.GetCost(ShopItemList.ItemType.Armor_2), 1);
+
 
     }
 
-    private void CreateItemButton(Sprite itemSprite, string itemName, int itemCost, int positionIndex)
+    private void CreateItemButton(ShopItemList.ItemType itemType, Sprite itemSprite, string itemName, int itemCost, int positionIndex)
     {
         Transform shopItemTransform = Instantiate(shopItemTemplate, container);
-        //RectTransform shopItemRectTransform = shopItemTransform.GetComponent<RectTransform>();
-        //float shopItemHeight = 30f;
-        //shopItemRectTransform.anchoredPosition = new Vector2(0, -shopItemHeight * positionIndex);
+        RectTransform shopItemRectTransform = shopItemTransform.GetComponent<RectTransform>();
+        float shopItemHeight = 120;
+        shopItemRectTransform.anchoredPosition = new Vector2(0, -shopItemHeight * positionIndex);
         shopItemTransform.Find("itemName").GetComponent<TextMeshProUGUI>().SetText(itemName);
         shopItemTransform.Find("costText").GetComponent<TextMeshProUGUI>().SetText(itemCost.ToString());
         shopItemTransform.Find("itemImage").GetComponent<Image>().sprite = itemSprite;
+        shopItemTransform.gameObject.SetActive(true);
+
+        shopItemTransform.GetComponent<Button>().onClick.AddListener(TryBuyItem);
+
+    }
+
+    private void TryBuyItem()
+    {
+        Debug.Log("Buy");
     }
 }
