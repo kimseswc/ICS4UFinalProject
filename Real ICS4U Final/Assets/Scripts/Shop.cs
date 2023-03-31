@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
+    public GameObject ShopUI;
+    public GameObject ShopTarget;
+    private UI_Shop SIL;
+
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SIL = ShopUI.GetComponent<UI_Shop>();
     }
 
     public void OpenShop()
     {
+        SIL.OnOffUI(ShopTarget);
         Debug.Log("Opened Shop");
     }
 }

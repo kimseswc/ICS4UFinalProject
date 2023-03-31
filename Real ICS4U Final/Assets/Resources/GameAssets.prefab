@@ -46,3 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Armor_1: {fileID: 21300000, guid: 4ab56129ccde546f4bb95f65986e7571, type: 3}
   Armor_2: {fileID: 21300000, guid: a5355b46a6d7c42a7aecd55730530fc0, type: 3}
+  Armor_3: {fileID: 21300000, guid: fbd1d5a61de69492aa98d784c89eb595, type: 3}
+  Sword_1: {fileID: 21300000, guid: c016f9f8e211a4b80a04779137b49192, type: 3}
+  Sword_2: {fileID: 21300000, guid: ed139119568c142209b08d16792db4c9, type: 3}
+  Sword_3: {fileID: 21300000, guid: 0d60f7732f6904e308d33c440497b772, type: 3}
+  Potion_1: {fileID: 21300000, guid: 84a0f16c8ae644c47bec5d05bfc2df12, type: 3}
+  Potion_2: {fileID: 21300000, guid: c03f728177e324e07ad7d5bc8f9810e6, type: 3}
+  Potion_3: {fileID: 21300000, guid: e92782b6af2b54a90b965608d595fb75, type: 3}

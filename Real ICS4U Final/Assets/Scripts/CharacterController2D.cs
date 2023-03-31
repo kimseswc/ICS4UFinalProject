@@ -7,10 +7,11 @@ public class CharacterController2D : MonoBehaviour
     private Collision coll;
     public Rigidbody2D rb;
     public LayerMask enemyLayer;
-    public LayerMask interactLayer;
+    public LayerMask shopLayer;
     public Transform attackPoint;
     public Transform interactPoint;
 
+    public int health = 100;
     public int money = 100;
     public float speed = 5f;
     public float dashSpeed = 5f;
@@ -43,7 +44,7 @@ public class CharacterController2D : MonoBehaviour
 
         if(!isDashing) Walk(dir);
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetKeyDown("c"))
         {
             if(coll.onGround && !isDashing) Jump();
         }
@@ -59,18 +60,21 @@ public class CharacterController2D : MonoBehaviour
             wallSlide = false;
         }
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown("z"))
         {
             Attack();
-            
         }
 
     
-        if(Input.GetButtonDown("Fire2") && !hasDashed) {
+        if(Input.GetKeyDown("x") && !hasDashed) {
             Debug.Log("Fire2");
             if(xRaw != 0 || yRaw != 0)
             {
                 Dash(xRaw, yRaw);
+            }
+            else if(xRaw == 0 && yRaw == 0)
+            {
+                Interact();
             }
         }
 
@@ -145,7 +149,7 @@ public class CharacterController2D : MonoBehaviour
 
     private void Interact()
     {
-        Collider2D[] interactNPC = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, interactLayer);
+        Collider2D[] interactNPC = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, shopLayer);
 
         foreach(Collider2D NPC in interactNPC)
         {
@@ -172,16 +176,25 @@ public class CharacterController2D : MonoBehaviour
         attackPoint.localScale = theScale2;
     }
 
-    public void TrySpend(int itemCost)
+    public bool TrySpend(int itemCost)
     {
         if(money >= itemCost)
         {
-            money = money - itemCost;
+            money -= itemCost;
+            Debug.Log("current money : " + money.ToString());
+            return true;
         }
         else
         {
             Debug.Log("need more money");
+            return false;
         }
+    }
+
+    public void AddHealth(int amount)
+    {
+        health += amount;
+        Debug.Log("current health : " + health.ToString());
     }
 
 

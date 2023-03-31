@@ -20,4 +20,12 @@ public class GameAssets : MonoBehaviour
 
     public Sprite Armor_1;
     public Sprite Armor_2;
+    public Sprite Armor_3;
+    public Sprite Sword_1;
+    public Sprite Sword_2;
+    public Sprite Sword_3;
+    public Sprite Potion_1;
+    public Sprite Potion_2;
+    public Sprite Potion_3;
 }
+
