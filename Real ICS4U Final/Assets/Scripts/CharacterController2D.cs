@@ -12,6 +12,7 @@ public class CharacterController2D : MonoBehaviour
     public Transform interactPoint;
 
     public int health = 100;
+    public int maxHealth = 100;
     public int money = 100;
     public float speed = 5f;
     public float dashSpeed = 5f;
@@ -193,8 +194,7 @@ public class CharacterController2D : MonoBehaviour
 
     public void AddHealth(int amount)
     {
-        health += amount;
-        Debug.Log("current health : " + health.ToString());
+        maxHealth += amount;
     }
 
 
