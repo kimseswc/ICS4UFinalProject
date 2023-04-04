@@ -6,14 +6,13 @@ using TMPro;
 
 public class HUD : MonoBehaviour
 {
-    private int money;
-    private int health;
-    private int maxHealth;
     public GameObject player;
     private CharacterController2D script;
+    public GameObject QuickSlotUIobj;
 
     private Transform HealthBarUI;
     private Transform MoneyUI;
+    private Transform QuickSlotUI;
     
 
     // Start is called before the first frame update
@@ -22,16 +21,18 @@ public class HUD : MonoBehaviour
         script = player.GetComponent<CharacterController2D>();
         HealthBarUI = transform.Find("HealthBarUI");
         MoneyUI = transform.Find("MoneyUI");
+        QuickSlotUI = transform.Find("QuickSlotUI");
     }
 
     // Update is called once per frame
     void Update()
     {
-        money = script.money;
-        health = script.health;
-        maxHealth = script.maxHealth;
-        HealthBarUI.Find("HealthBar").GetComponent<Image>().fillAmount = ((float)health / (float)maxHealth);
-        HealthBarUI.Find("HealthBarText").GetComponent<TextMeshProUGUI>().SetText(health.ToString() + " / " + maxHealth.ToString());
-        MoneyUI.Find("MoneyText").GetComponent<TextMeshProUGUI>().SetText("$ " + money.ToString());
+        HealthBarUI.Find("HealthBar").GetComponent<Image>().fillAmount = ((float)script.health / (float)script.maxHealth);
+        HealthBarUI.Find("HealthBarText").GetComponent<TextMeshProUGUI>().SetText(script.health.ToString() + " / " + script.maxHealth.ToString());
+        MoneyUI.Find("MoneyText").GetComponent<TextMeshProUGUI>().SetText("$ " + script.money.ToString());
+        QuickSlotUI.Find("QuickSlotSprite").GetComponent<Image>().sprite = ShopItemList.GetSprite(script.quickSlotItem);
+        QuickSlotUI.Find("QuickSlotText").GetComponent<TextMeshProUGUI>().SetText(script.quickSlotItemAmount.ToString());
+        QuickSlotUIobj.SetActive(script.quickSlotItemAmount > 0);
+
     }
 }

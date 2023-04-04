@@ -28,12 +28,15 @@ public class UI_Shop : MonoBehaviour
     private void Start()
     {
         player = playerCL.GetComponent<CharacterController2D>();
+
         CreateItemButton(ShopItemList.ItemType.Armor_1, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_1), "Armor 1", ShopItemList.GetCost(ShopItemList.ItemType.Armor_1), 0, armorShop);
         CreateItemButton(ShopItemList.ItemType.Armor_2, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_2), "Armor 2", ShopItemList.GetCost(ShopItemList.ItemType.Armor_2), 1, armorShop);
         CreateItemButton(ShopItemList.ItemType.Armor_3, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_3), "Armor 3", ShopItemList.GetCost(ShopItemList.ItemType.Armor_3), 2, armorShop);
+
         CreateItemButton(ShopItemList.ItemType.Sword_1, ShopItemList.GetSprite(ShopItemList.ItemType.Sword_1), "Sword 1", ShopItemList.GetCost(ShopItemList.ItemType.Sword_1), 0, swordShop);
         CreateItemButton(ShopItemList.ItemType.Sword_2, ShopItemList.GetSprite(ShopItemList.ItemType.Sword_2), "Sword 2", ShopItemList.GetCost(ShopItemList.ItemType.Sword_2), 1, swordShop);
         CreateItemButton(ShopItemList.ItemType.Sword_3, ShopItemList.GetSprite(ShopItemList.ItemType.Sword_3), "Sword 3", ShopItemList.GetCost(ShopItemList.ItemType.Sword_3), 2, swordShop);
+
         CreateItemButton(ShopItemList.ItemType.Potion_1, ShopItemList.GetSprite(ShopItemList.ItemType.Potion_1), "Potion 1", ShopItemList.GetCost(ShopItemList.ItemType.Potion_1), 0, potionShop);
         CreateItemButton(ShopItemList.ItemType.Potion_2, ShopItemList.GetSprite(ShopItemList.ItemType.Potion_2), "Potion 2", ShopItemList.GetCost(ShopItemList.ItemType.Potion_2), 1, potionShop);
         CreateItemButton(ShopItemList.ItemType.Potion_3, ShopItemList.GetSprite(ShopItemList.ItemType.Potion_3), "Potion 3", ShopItemList.GetCost(ShopItemList.ItemType.Potion_3), 2, potionShop);
@@ -54,12 +57,30 @@ public class UI_Shop : MonoBehaviour
 
     }
 
-    private void TryBuyItem(ShopItemList.ItemType itemType, int itemCost)
+    private void TryBuyItem(ShopItemList.ItemType i, int itemCost)
     {
-
+        if(i == ShopItemList.ItemType.Potion_1 || i == ShopItemList.ItemType.Potion_2 || i == ShopItemList.ItemType.Potion_3)
+        {
+            if(i != player.quickSlotItem)
+            {
+                if(player.quickSlotItemAmount != 0) return;
+            }
+        }
+                    
         if (player.TrySpend(itemCost))
         {
-            player.AddHealth(ShopItemList.GetEffect(itemType));
+            if(i == ShopItemList.ItemType.Armor_1 || i == ShopItemList.ItemType.Armor_2 || i == ShopItemList.ItemType.Armor_3)
+            {
+                player.AddMaxHealth(ShopItemList.GetEffect(i));
+            }
+            else if(i == ShopItemList.ItemType.Sword_1 || i == ShopItemList.ItemType.Sword_2 || i == ShopItemList.ItemType.Sword_3)
+            {
+                player.AddDamage(ShopItemList.GetEffect(i));
+            }
+            else
+            {
+                player.AddQuickSlotItem(i, ShopItemList.GetEffect(i));
+            }
         }
     }
 

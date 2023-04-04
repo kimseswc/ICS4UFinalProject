@@ -22,6 +22,9 @@ public class CharacterController2D : MonoBehaviour
     public float interactRange = 8f;
     public int attackDamage = 5;
     public int side = 1;
+    public ShopItemList.ItemType quickSlotItem;
+    public int quickSlotItemAmount = 0;
+    public int quickSlotItemEffect = 0;
  
     public bool canMove;
     public bool wallSlide;
@@ -48,6 +51,18 @@ public class CharacterController2D : MonoBehaviour
         if (Input.GetKeyDown("c"))
         {
             if(coll.onGround && !isDashing) Jump();
+        }
+
+        if(Input.GetKeyDown("left shift"))
+        {
+            if(quickSlotItemAmount != 0)
+            {
+                if(health != maxHealth)
+                {
+                    health = (health + quickSlotItemEffect > maxHealth ? maxHealth : health + quickSlotItemEffect);
+                    quickSlotItemAmount--;
+                }
+            }
         }
 
         if(coll.onWall && !coll.onGround && x != 0)
@@ -192,10 +207,28 @@ public class CharacterController2D : MonoBehaviour
         }
     }
 
-    public void AddHealth(int amount)
+    public void AddMaxHealth(int amount)
     {
         maxHealth += amount;
     }
 
+    public void AddDamage(int amount)
+    {
+        attackDamage += amount;
+    }
 
+    public void AddQuickSlotItem(ShopItemList.ItemType i, int effect)
+    {
+        quickSlotItemEffect = effect;
+        if(i != quickSlotItem)
+        {
+            quickSlotItem = i;
+            quickSlotItemAmount = 1;
+            
+        }
+        else
+        {
+            quickSlotItemAmount++;
+        }
+    }
 }
