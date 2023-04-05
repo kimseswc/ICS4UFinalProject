@@ -30,6 +30,7 @@ public class CharacterController2D : MonoBehaviour
     public bool wallSlide;
     private bool isDashing;
     private bool hasDashed;
+    private bool inShop = false;
 
     void Start()
     {
@@ -46,11 +47,11 @@ public class CharacterController2D : MonoBehaviour
 
         Vector2 dir = new Vector2(x, y);
 
-        if(!isDashing) Walk(dir);
+        if(!inShop && !isDashing) Walk(dir);
 
         if (Input.GetKeyDown("c"))
         {
-            if(coll.onGround && !isDashing) Jump();
+            if(!inShop && coll.onGround && !isDashing) Jump();
         }
 
         if(Input.GetKeyDown("left shift"))
@@ -76,21 +77,20 @@ public class CharacterController2D : MonoBehaviour
             wallSlide = false;
         }
 
-        if (Input.GetKeyDown("z"))
+        if (!inShop && Input.GetKeyDown("z"))
         {
             Attack();
         }
 
     
         if(Input.GetKeyDown("x") && !hasDashed) {
-            Debug.Log("Fire2");
-            if(xRaw != 0 || yRaw != 0)
-            {
-                Dash(xRaw, yRaw);
-            }
-            else if(xRaw == 0 && yRaw == 0)
+            if(xRaw == 0 && yRaw == 0)
             {
                 Interact();
+            }
+            else if(!inShop && (xRaw != 0 || yRaw != 0))
+            {
+                Dash(xRaw, yRaw);
             }
         }
 
@@ -170,6 +170,7 @@ public class CharacterController2D : MonoBehaviour
         foreach(Collider2D NPC in interactNPC)
         {
             NPC.GetComponent<Shop>().OpenShop();
+            inShop ^= true;
         }
     }
 

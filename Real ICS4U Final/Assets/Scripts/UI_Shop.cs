@@ -25,6 +25,7 @@ public class UI_Shop : MonoBehaviour
         shopItemTemplate.gameObject.SetActive(false);
     }
 
+    // create Armor, Sword, Potion buttons on shopUI
     private void Start()
     {
         player = playerCL.GetComponent<CharacterController2D>();
@@ -42,6 +43,7 @@ public class UI_Shop : MonoBehaviour
         CreateItemButton(ShopItemList.ItemType.Potion_3, ShopItemList.GetSprite(ShopItemList.ItemType.Potion_3), "Potion 3", ShopItemList.GetCost(ShopItemList.ItemType.Potion_3), 2, potionShop);
     }
 
+    // sets button's image, text, positions
     private void CreateItemButton(ShopItemList.ItemType itemType, Sprite itemSprite, string itemName, int itemCost, int positionIndex, Transform parentContainer)
     {
         Transform shopItemTransform = Instantiate(shopItemTemplate, parentContainer);
@@ -59,6 +61,7 @@ public class UI_Shop : MonoBehaviour
 
     private void TryBuyItem(ShopItemList.ItemType i, int itemCost)
     {
+        // if it is not possible to replace the quickslot, it will not try to buy potion
         if(i == ShopItemList.ItemType.Potion_1 || i == ShopItemList.ItemType.Potion_2 || i == ShopItemList.ItemType.Potion_3)
         {
             if(i != player.quickSlotItem)
@@ -67,7 +70,7 @@ public class UI_Shop : MonoBehaviour
             }
         }
                     
-        if (player.TrySpend(itemCost))
+        if (player.TrySpend(itemCost)) // does player have enough money?
         {
             if(i == ShopItemList.ItemType.Armor_1 || i == ShopItemList.ItemType.Armor_2 || i == ShopItemList.ItemType.Armor_3)
             {
@@ -77,16 +80,17 @@ public class UI_Shop : MonoBehaviour
             {
                 player.AddDamage(ShopItemList.GetEffect(i));
             }
-            else
+            
+            else // if item type is potion
             {
                 player.AddQuickSlotItem(i, ShopItemList.GetEffect(i));
             }
         }
     }
 
+    // XOR switch to turn the UI on and OFF
     public void OnOffUI(GameObject i)
     {
-
         i.SetActive(UIVisability ^= true);
     }
 }
