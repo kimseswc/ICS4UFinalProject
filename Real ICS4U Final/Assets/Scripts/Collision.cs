@@ -26,7 +26,7 @@ public class Collision : MonoBehaviour
         onRightWall = Physics2D.OverlapCircle((Vector2)transform.position + rightOffset, collisionRadius, groundLayer);
 
         // if leftwall : -1   if rightwall : 1
-        wallSide = onLeftWall ? -1 : 1;
+        wallSide = onLeftWall ? -1 : (onRightWall ? 1 : 0);
     }
 
     // draws circles on character

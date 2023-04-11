@@ -5,44 +5,48 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
+    private Collision coll;
     public LayerMask playerMask;
     public float speed = 5f;
+    public float jumpForce = 9f;
     public float agroRadius = 10f;
     public GameObject player;
 
     private int side = 1;
+    private bool canWalk = true;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+        coll = GetComponent<Collision>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float x = 0.1f;
-        float y = 0;
-
-        Vector2 dir = new Vector2(x, y);
 
         //Walk(dir);
 
         if(InAgro())
         {
+            if(player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
+            {
+                Jump();
+            }
+
             //walk to player
-            if (player.transform.position.x > transform.position.x)
+            if (player.transform.position.x > transform.position.x && !coll.onRightWall)
             {
                 if (side == -1) Flip();
                 side = 1;
-                Walk(new Vector2(0.3f, 0));
+                Walk(new Vector2(0.8f, 0));
             }
-            else
+            else if(player.transform.position.x < transform.position.x && !coll.onLeftWall)
             {
                 if (side == 1) Flip();
                 side = -1;
-                Walk(new Vector2(-0.3f, 0));
+                Walk(new Vector2(-0.8f, 0));
             }
         }
 
@@ -53,6 +57,12 @@ public class EnemyMovement : MonoBehaviour
     private void Walk(Vector2 dir)
     {
         rb.velocity = (new Vector2(dir.x * speed, rb.velocity.y));
+    }
+
+    private void Jump()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 0);
+        rb.velocity += Vector2.up * jumpForce;
     }
 
     private bool InAgro()
