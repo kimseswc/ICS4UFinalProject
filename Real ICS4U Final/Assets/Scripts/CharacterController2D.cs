@@ -232,4 +232,9 @@ public class CharacterController2D : MonoBehaviour
             quickSlotItemAmount++;
         }
     }
+
+    public void TakeDamage(int amount)
+    {
+        health = (health - amount < 0 ? 0 : health - amount);
+    }
 }

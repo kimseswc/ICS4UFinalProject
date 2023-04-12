@@ -5,30 +5,49 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public BoxCollider2D bc;
     private Collision coll;
     public LayerMask playerMask;
     public float speed = 5f;
     public float jumpForce = 9f;
-    public float agroRadius = 10f;
+    public float detectRadius = 10f;
+    public float ignoreRadius = 15f;
+    public float attackRadius = 2f;
+    public int attackDamage = 10;
     public GameObject player;
 
+    private bool inAgro = false;
+    private bool canAttack = true;
+    private bool canMove = true;
     private int side = 1;
-    private bool canWalk = true;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collision>();
+        bc = transform.Find("AttackBox").GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        //Walk(dir);
+        if (!inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) < detectRadius)
+        {
+            inAgro = true;
+        }
+        else if (inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) > ignoreRadius)
+        {
+            inAgro = false;
+        }
 
-        if(InAgro())
+        if(Mathf.Abs(player.transform.position.x - transform.position.x) < attackRadius && canAttack)
+        {
+            Attack();
+        }
+
+        if (inAgro && canMove)
         {
             if(player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
             {
@@ -65,17 +84,6 @@ public class EnemyMovement : MonoBehaviour
         rb.velocity += Vector2.up * jumpForce;
     }
 
-    private bool InAgro()
-    {
-        if(Physics2D.OverlapCircle(transform.position, agroRadius, playerMask)) return true;
-        return false;
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position, agroRadius);
-    }
-
     private void Flip()
     {
         Vector3 theScale = transform.localScale;
@@ -84,5 +92,27 @@ public class EnemyMovement : MonoBehaviour
         //Vector3 theScale2 = attackPoint.localScale;
         //theScale2.x *= -1;
         //attackPoint.localScale = theScale2;
+    }
+
+    private void Attack()
+    {
+
+        Collider2D[] cols = Physics2D.OverlapBoxAll(bc.bounds.center, bc.bounds.extents, 0f, LayerMask.GetMask("Player"));
+        foreach(Collider2D c in cols) {
+            c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
+            StartCoroutine(AttackWait());
+            break;
+        }
+    }
+
+    IEnumerator AttackWait()
+    {
+        canMove = false;
+        canAttack = false;
+
+        yield return new WaitForSeconds(1f);
+
+        canMove = true;
+        canAttack = true;
     }
 }
