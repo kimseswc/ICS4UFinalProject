@@ -10,6 +10,7 @@ public class CharacterController2D : MonoBehaviour
     public LayerMask shopLayer;
     public Transform attackPoint;
     public Transform interactPoint;
+    public Animator swordAnimator;
 
     public int health = 100;
     public int maxHealth = 100;
@@ -47,7 +48,9 @@ public class CharacterController2D : MonoBehaviour
 
         Vector2 dir = new Vector2(x, y);
 
-        if(!inShop && !isDashing) Walk(dir);
+        if(!inShop && !isDashing) {
+            Walk(dir);
+        }
 
         if (Input.GetKeyDown("c"))
         {
@@ -154,7 +157,7 @@ public class CharacterController2D : MonoBehaviour
 
     private void Attack()
     {
-
+        swordAnimator.SetTrigger("Attack");
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
         foreach (Collider2D enemy in hitEnemies)
