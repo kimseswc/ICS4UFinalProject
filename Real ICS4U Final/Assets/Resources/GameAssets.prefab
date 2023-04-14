@@ -44,12 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e2c063bd0d8445ab3a17693bec58a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Armor_1: {fileID: 21300000, guid: 4ab56129ccde546f4bb95f65986e7571, type: 3}
-  Armor_2: {fileID: 21300000, guid: a5355b46a6d7c42a7aecd55730530fc0, type: 3}
-  Armor_3: {fileID: 21300000, guid: fbd1d5a61de69492aa98d784c89eb595, type: 3}
-  Sword_1: {fileID: 21300000, guid: c016f9f8e211a4b80a04779137b49192, type: 3}
-  Sword_2: {fileID: 21300000, guid: ed139119568c142209b08d16792db4c9, type: 3}
-  Sword_3: {fileID: 21300000, guid: 0d60f7732f6904e308d33c440497b772, type: 3}
-  Potion_1: {fileID: 21300000, guid: 84a0f16c8ae644c47bec5d05bfc2df12, type: 3}
-  Potion_2: {fileID: 21300000, guid: c03f728177e324e07ad7d5bc8f9810e6, type: 3}
-  Potion_3: {fileID: 21300000, guid: e92782b6af2b54a90b965608d595fb75, type: 3}
+  Armor_1: {fileID: 21300000, guid: 7362a3d704e9d8940ad3f9bae0d0d6ba, type: 3}
+  Armor_2: {fileID: 21300000, guid: 383c0ebe078a1074baa23dbfd65f1682, type: 3}
+  Armor_3: {fileID: 21300000, guid: c06e22d48fcd718489f4e0f577de3cd9, type: 3}
+  Sword_1: {fileID: 21300000, guid: 8c5d8bf0b5144074598442ff3e89a5b0, type: 3}
+  Sword_2: {fileID: 21300000, guid: 92970c3578a0683418a6ad07e15c1229, type: 3}
+  Sword_3: {fileID: 21300000, guid: 9bc78c9dadb8767479827a549b13a450, type: 3}
+  Potion_1: {fileID: 21300000, guid: a7f45a2e5298c524bafb786179203fcc, type: 3}
+  Potion_2: {fileID: 21300000, guid: a9956420bf513f74491e5a57384c3189, type: 3}
+  Potion_3: {fileID: 21300000, guid: e2ee6587ee42524459496990e3b1445f, type: 3}
