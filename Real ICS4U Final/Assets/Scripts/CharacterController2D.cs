@@ -8,6 +8,7 @@ public class CharacterController2D : MonoBehaviour
     public Rigidbody2D rb;
     public LayerMask enemyLayer;
     public LayerMask shopLayer;
+    public LayerMask npcLayer;
     public Transform attackPoint;
     public Transform interactPoint;
     public Animator swordAnimator;
@@ -31,7 +32,9 @@ public class CharacterController2D : MonoBehaviour
     public bool wallSlide;
     private bool isDashing;
     private bool hasDashed;
-    private bool inShop = false;
+    private bool canAttack = true;
+    public bool inUI = false;
+    
 
     void Start()
     {
@@ -48,13 +51,13 @@ public class CharacterController2D : MonoBehaviour
 
         Vector2 dir = new Vector2(x, y);
 
-        if(!inShop && !isDashing) {
+        if(!inUI && !isDashing) {
             Walk(dir);
         }
 
         if (Input.GetKeyDown("c"))
         {
-            if(!inShop && coll.onGround && !isDashing) Jump();
+            if(!inUI && coll.onGround && !isDashing) Jump();
         }
 
         if(Input.GetKeyDown("left shift"))
@@ -80,7 +83,7 @@ public class CharacterController2D : MonoBehaviour
             wallSlide = false;
         }
 
-        if (!inShop && Input.GetKeyDown("z"))
+        if (!inUI && Input.GetKeyDown("z") && canAttack)
         {
             Attack();
         }
@@ -91,7 +94,7 @@ public class CharacterController2D : MonoBehaviour
             {
                 Interact();
             }
-            else if(!inShop && (xRaw != 0 || yRaw != 0))
+            else if(!inUI && (xRaw != 0 || yRaw != 0))
             {
                 Dash(xRaw, yRaw);
             }
@@ -164,6 +167,14 @@ public class CharacterController2D : MonoBehaviour
         {
             enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
         }
+        StartCoroutine(AttackWait());
+    }
+
+    IEnumerator AttackWait()
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(0.3f);
+        canAttack = true;
     }
 
     private void Interact()
@@ -173,7 +184,16 @@ public class CharacterController2D : MonoBehaviour
         foreach(Collider2D NPC in interactNPC)
         {
             NPC.GetComponent<Shop>().OpenShop();
-            inShop ^= true;
+            inUI ^= true;
+        }
+
+        
+        interactNPC = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, npcLayer);
+
+        foreach (Collider2D NPC in interactNPC)
+        {
+            
+            NPC.GetComponent<Conversation>().nextLine();
         }
     }
 

@@ -1,0 +1,4 @@
+NPC
+hi player, how are you?
+player
+I'm going good

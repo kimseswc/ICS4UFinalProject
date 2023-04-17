@@ -15,6 +15,7 @@ public class EnemyMovement : MonoBehaviour
     public float attackRadius = 2f;
     public int attackDamage = 10;
     public GameObject player;
+    public Animator swordAnimator;
 
     private bool inAgro = false;
     private bool canAttack = true;
@@ -96,13 +97,23 @@ public class EnemyMovement : MonoBehaviour
 
     private void Attack()
     {
-
+        swordAnimator.SetTrigger("Attack");
+        StartCoroutine(AttackPrepare());
         Collider2D[] cols = Physics2D.OverlapBoxAll(bc.bounds.center, bc.bounds.extents, 0f, LayerMask.GetMask("Player"));
         foreach(Collider2D c in cols) {
             c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
             StartCoroutine(AttackWait());
             break;
         }
+    }
+
+    IEnumerator AttackPrepare()
+    {
+        canMove = false;
+        canAttack = false;
+        yield return new WaitForSeconds(1f);
+        canMove = true;
+        canAttack = true;
     }
 
     IEnumerator AttackWait()
