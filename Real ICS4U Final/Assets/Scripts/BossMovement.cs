@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class BossMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
     public BoxCollider2D bc;
@@ -43,14 +43,14 @@ public class EnemyMovement : MonoBehaviour
             inAgro = false;
         }
 
-        if(0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < attackRadius && canAttack)
+        if (0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < attackRadius && canAttack)
         {
             Attack();
         }
 
         if (inAgro && canMove)
         {
-            if(player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
+            if (player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
             {
                 Jump();
             }
@@ -62,7 +62,7 @@ public class EnemyMovement : MonoBehaviour
                 side = 1;
                 Walk(new Vector2(0.8f, 0));
             }
-            else if(player.transform.position.x < transform.position.x && !coll.onLeftWall)
+            else if (player.transform.position.x < transform.position.x && !coll.onLeftWall)
             {
                 if (side == 1) Flip();
                 side = -1;
@@ -100,7 +100,8 @@ public class EnemyMovement : MonoBehaviour
         swordAnimator.SetTrigger("Attack");
         StartCoroutine(AttackPrepare());
         Collider2D[] cols = Physics2D.OverlapBoxAll(bc.bounds.center, bc.bounds.extents, 0f, LayerMask.GetMask("Player"));
-        foreach(Collider2D c in cols) {
+        foreach (Collider2D c in cols)
+        {
             c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
             StartCoroutine(AttackWait());
             break;

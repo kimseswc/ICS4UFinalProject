@@ -40,6 +40,7 @@ public class CharacterController2D : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collision>();
+        Physics2D.IgnoreLayerCollision(6, 7, true);
     }
 
     void Update()

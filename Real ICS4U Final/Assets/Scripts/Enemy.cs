@@ -11,13 +11,14 @@ public class Enemy : MonoBehaviour
     public int health;
     public int reward = 50;
     public Transform EnemyHealthBar;
+    public GameObject EnemyHealthBarobj;
 
     // Start is called before the first frame update
     void Start()
     {
         self = GetComponent<Rigidbody2D>();
         health = maxHealth;
-
+        EnemyHealthBarobj.SetActive(false);
     }
 
     // Update is called once per frame
@@ -28,6 +29,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if(health != maxHealth) EnemyHealthBarobj.SetActive(true);
         health -= damage;
         if(health <= 0) Die();
         EnemyHealthBar.GetComponent<Image>().fillAmount = (float)health / (float)maxHealth;
