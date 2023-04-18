@@ -121,7 +121,6 @@ public class CharacterController2D : MonoBehaviour
 
     private void Dash(float x, float y)
     {
-        Debug.Log(x.ToString() + " " + y.ToString());
         hasDashed = true;
         rb.velocity = Vector2.zero;
         Vector2 dir = new Vector2(x, y);
@@ -167,6 +166,7 @@ public class CharacterController2D : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
+            break;
         }
         StartCoroutine(AttackWait());
     }
