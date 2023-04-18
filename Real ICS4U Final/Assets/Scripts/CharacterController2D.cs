@@ -260,5 +260,10 @@ public class CharacterController2D : MonoBehaviour
     public void TakeDamage(int amount)
     {
         health = (health - amount < 0 ? 0 : health - amount);
+        if(health == 0)
+        {
+            transform.position = new Vector3(0, 0, 0);
+            health = maxHealth;
+        }
     }
 }
