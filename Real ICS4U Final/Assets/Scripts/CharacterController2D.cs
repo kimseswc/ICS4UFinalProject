@@ -166,7 +166,6 @@ public class CharacterController2D : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
-            break;
         }
         StartCoroutine(AttackWait());
     }

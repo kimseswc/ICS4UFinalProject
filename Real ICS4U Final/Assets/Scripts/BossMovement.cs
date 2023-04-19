@@ -50,13 +50,16 @@ public class BossMovement : MonoBehaviour
             inAgro = false;
         }
 
-        if (0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < attackRadius && canAttack)
+        if(canAttack)
         {
-            Attack();
-        }
-        else if (0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < rangeAttackRadius && canAttack && !isDashAttackCooldown)
-        {
-            DashAttack();
+            if (0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < attackRadius)
+            {
+                StartCoroutine(Attack());
+            }
+            else if(0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < rangeAttackRadius)
+            {
+                if (!isDashAttackCooldown) StartCoroutine(DashAttack());
+            }
         }
 
         if (inAgro && canMove)
@@ -116,72 +119,38 @@ public class BossMovement : MonoBehaviour
         //attackPoint.localScale = theScale2;
     }
 
-    private void Attack()
+    IEnumerator DashAttack()
     {
-        swordAnimator.SetTrigger("Attack");
+        isDashAttackCooldown = true;
         canAttack = false;
-        StartCoroutine(AttackPrepare());
-        Collider2D[] cols = Physics2D.OverlapBoxAll(bc.bounds.center, bc.bounds.extents, 0f, LayerMask.GetMask("Player"));
-        StartCoroutine(AttackWait(2f));
-        foreach (Collider2D c in cols)
-        {
-            c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
-            
-            break;
-        }
-    }
+        canMove = false;
+        yield return new WaitForSeconds(1f);
 
-    private void DashAttack()
-    {
-        Debug.Log("DashAttack");
-        StartCoroutine(AttackPrepare());
         isDashing = true;
         canDashAttack = true;
         rb.velocity = Vector2.zero;
-        Vector2 dir = new Vector2(side, 0);
+        rb.velocity = new Vector2(side, 0) * dashSpeed;
+        yield return new WaitForSeconds(0.5f);
 
-        rb.velocity = dir * dashSpeed;
-        
+        rb.velocity = Vector2.zero;
+        yield return new WaitForSeconds(3f);
 
-        StartCoroutine(DashAttackWait(0.5f));
-        StartCoroutine(DashAttackWait());
-    }
+        canAttack = true;
+        canMove = true;
 
-    
-
-    IEnumerator DashAttackWait()
-    {
-        isDashAttackCooldown = true;
         yield return new WaitForSeconds(5f);
         isDashAttackCooldown = false;
     }
 
-    IEnumerator AttackPrepare()
+    IEnumerator Attack()
     {
-        canMove = false;
-        canAttack = false;
-        yield return new WaitForSeconds(1f);
-        canMove = true;
-        canAttack = true;
-    }
-
-    IEnumerator AttackWait(float t)
-    {
-        canMove = false;
-
-        yield return new WaitForSeconds(t);
-
-        canMove = true;
-    }
-
-    IEnumerator DashAttackWait(float t)
-    {
-        canMove = false;
-        canAttack = false;
-
-        yield return new WaitForSeconds(t);
-
-        canMove = true;
-        isDashing = false;
+        canAttack = canMove = false;
+        yield return new WaitForSeconds(0.7f);
+        swordAnimator.SetTrigger("Attack");
+        yield return new WaitForSeconds(0.1f);
+        Collider2D[] cols = Physics2D.OverlapBoxAll(bc.bounds.center, bc.bounds.extents, 0f, LayerMask.GetMask("Player"));
+        foreach (Collider2D c in cols) c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
+        yield return new WaitForSeconds(0.7f);
+        canAttack = canMove = true;
     }
 }

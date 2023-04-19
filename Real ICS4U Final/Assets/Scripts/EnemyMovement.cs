@@ -45,7 +45,7 @@ public class EnemyMovement : MonoBehaviour
 
         if(0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < attackRadius && canAttack)
         {
-            Attack();
+            StartCoroutine(Attack());
         }
 
         if (inAgro && canMove)
@@ -70,8 +70,6 @@ public class EnemyMovement : MonoBehaviour
             }
         }
 
-        //if in attack range for certain time
-        //attack, damage player
     }
 
     private void Walk(Vector2 dir)
@@ -95,35 +93,15 @@ public class EnemyMovement : MonoBehaviour
         //attackPoint.localScale = theScale2;
     }
 
-    private void Attack()
+    IEnumerator Attack()
     {
+        canAttack = canMove = false;
+        yield return new WaitForSeconds(0.7f);
         swordAnimator.SetTrigger("Attack");
-        StartCoroutine(AttackPrepare());
+        yield return new WaitForSeconds(0.1f);
         Collider2D[] cols = Physics2D.OverlapBoxAll(bc.bounds.center, bc.bounds.extents, 0f, LayerMask.GetMask("Player"));
-        foreach(Collider2D c in cols) {
-            c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
-            StartCoroutine(AttackWait());
-            break;
-        }
-    }
-
-    IEnumerator AttackPrepare()
-    {
-        canMove = false;
-        canAttack = false;
-        yield return new WaitForSeconds(1f);
-        canMove = true;
-        canAttack = true;
-    }
-
-    IEnumerator AttackWait()
-    {
-        canMove = false;
-        canAttack = false;
-
-        yield return new WaitForSeconds(2f);
-
-        canMove = true;
-        canAttack = true;
+        foreach (Collider2D c in cols) c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
+        yield return new WaitForSeconds(0.7f);
+        canAttack = canMove = true;
     }
 }
