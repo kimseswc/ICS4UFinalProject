@@ -12,9 +12,15 @@ public class Puzzle : MonoBehaviour
     public GameObject leftObj;
     public GameObject rightObj;
 
+    void Start()
+    {
+        transform.GetComponent<SpriteRenderer>().sprite = (status == true ? GameAssets.i.bulbON : GameAssets.i.bulbOFF);
+    }
+
     public void useSwitch()
     {
         status ^= true;
+        transform.GetComponent<SpriteRenderer>().sprite = (status == true ? GameAssets.i.bulbON : GameAssets.i.bulbOFF);
     }
 
     public void interactSwitch()
@@ -23,7 +29,7 @@ public class Puzzle : MonoBehaviour
 
         // use this, up, down, left, right light switches
         useSwitch();
-        if(upObj != null)      upObj.GetComponent<Puzzle>().useSwitch();
+        if(upObj != null)       upObj.GetComponent<Puzzle>().useSwitch();
         if(downObj != null)   downObj.GetComponent<Puzzle>().useSwitch();
         if(leftObj != null)   leftObj.GetComponent<Puzzle>().useSwitch();
         if(rightObj != null) rightObj.GetComponent<Puzzle>().useSwitch();
@@ -32,6 +38,7 @@ public class Puzzle : MonoBehaviour
         {
             stopUsage(true, true, true, true);
             wall.SetActive(false);
+            Debug.Log("Finished");
         }
     }
 
@@ -41,12 +48,12 @@ public class Puzzle : MonoBehaviour
         // if this light is off, no need to check all lights, so return false
         if(status == false) return false;
 
-        bool b1 = false, b2 = false, b3 = false, b4 = false;
+        bool b1, b2, b3, b4;
 
-        if(canGoUp)    b1 = (upObj    == null ? true :    upObj.GetComponent<Puzzle>().checkFinished(true,  false, true,  true));
-        if(canGoDown)  b2 = (downObj  == null ? true :  downObj.GetComponent<Puzzle>().checkFinished(false, true,  true,  true));
-        if(canGoLeft)  b3 = (leftObj  == null ? true :  leftObj.GetComponent<Puzzle>().checkFinished(false, false, true,  false));
-        if(canGoRight) b4 = (rightObj == null ? true : rightObj.GetComponent<Puzzle>().checkFinished(false, false, false, true));
+        b1 = (canGoUp    ? (upObj    == null ? true :    upObj.GetComponent<Puzzle>().checkFinished(true,  false, true,  true))  : true);
+        b2 = (canGoDown  ? (downObj  == null ? true :  downObj.GetComponent<Puzzle>().checkFinished(false, true,  true,  true))  : true);
+        b3 = (canGoLeft  ? (leftObj  == null ? true :  leftObj.GetComponent<Puzzle>().checkFinished(false, false, true,  false)) : true);
+        b4 = (canGoRight ? (rightObj == null ? true : rightObj.GetComponent<Puzzle>().checkFinished(false, false, false, true))  : true);
 
         // only if all the connected branches' lights are all turned on, it will return true
         return (b1 & b2 & b3 & b4);

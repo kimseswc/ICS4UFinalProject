@@ -9,6 +9,7 @@ public class CharacterController2D : MonoBehaviour
     public LayerMask enemyLayer;
     public LayerMask shopLayer;
     public LayerMask npcLayer;
+    public LayerMask puzzleLayer;
     public Transform attackPoint;
     public Transform interactPoint;
     public Animator swordAnimator;
@@ -90,12 +91,12 @@ public class CharacterController2D : MonoBehaviour
         }
 
     
-        if(Input.GetKeyDown("x") && !hasDashed) {
+        if(Input.GetKeyDown("x")) {
             if(xRaw == 0 && yRaw == 0)
             {
                 Interact();
             }
-            else if(!inUI && (xRaw != 0 || yRaw != 0))
+            else if(!inUI && (xRaw != 0 || yRaw != 0) && !hasDashed)
             {
                 Dash(xRaw, yRaw);
             }
@@ -179,21 +180,30 @@ public class CharacterController2D : MonoBehaviour
 
     private void Interact()
     {
-        Collider2D[] interactNPC = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, shopLayer);
+        Collider2D[] c = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, shopLayer);
 
-        foreach(Collider2D NPC in interactNPC)
+        foreach(Collider2D NPC in c)
         {
             NPC.GetComponent<Shop>().OpenShop();
             inUI ^= true;
+            return;
         }
 
         
-        interactNPC = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, npcLayer);
+        c = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, npcLayer);
 
-        foreach (Collider2D NPC in interactNPC)
+        foreach (Collider2D NPC in c)
         {
             
             NPC.GetComponent<Conversation>().nextLine();
+            return;
+        }
+
+        c = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, puzzleLayer);
+        foreach(Collider2D bulb in c)
+        {
+            bulb.GetComponent<Puzzle>().interactSwitch();
+            return;
         }
     }
 

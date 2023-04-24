@@ -27,5 +27,7 @@ public class GameAssets : MonoBehaviour
     public Sprite Potion_1;
     public Sprite Potion_2;
     public Sprite Potion_3;
+    public Sprite bulbON;
+    public Sprite bulbOFF;
 }
 
