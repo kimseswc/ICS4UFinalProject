@@ -7,28 +7,38 @@ using UnityEditor;
 
 public class MenuManager : MonoBehaviour
 {
+    public GameObject soundBar;
+
     private bool pauseMenuOnScreen = false;
     private bool startMenuOnScreen = false;
     private bool optionMenuOnScreen = false;
     private GameObject startMenu;
     private GameObject pauseMenu;
     private GameObject optionMenu;
+    private float soundBarValue = 0.5f;
     private int previousMenu = -1; // 0: pauseMenu, 1: startMenu
     // Start is called before the first frame update
     void Start()
     {
+        gameObject.SetActive(true);
         startMenu = GameObject.Find("StartMenu");
         pauseMenu = GameObject.Find("PauseMenu");
         optionMenu = GameObject.Find("OptionMenu");
 
+        pauseMenu.SetActive(false);
+        pauseMenuOnScreen = false;
         startMenu.SetActive(true);
         startMenuOnScreen = true;
+        optionMenu.SetActive(false);
+        optionMenuOnScreen = false;
+
+        SoundBarUpdate();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown("escape"))
+        if(!startMenuOnScreen && Input.GetKeyDown("escape"))
         {
             if(optionMenuOnScreen)
             {
@@ -51,6 +61,7 @@ public class MenuManager : MonoBehaviour
     public void StartGame()
     {
         startMenu.SetActive(false);
+        startMenuOnScreen = false;
     }
 
     public void QuitGame()
@@ -96,5 +107,28 @@ public class MenuManager : MonoBehaviour
             startMenu.SetActive(true);
             startMenuOnScreen = true;
         }
+    }
+
+    public void SoundIncrease()
+    {
+        if (soundBarValue != 0f)
+        {
+            soundBarValue -= 0.125f;
+            SoundBarUpdate();
+        }
+    }
+
+    public void SoundDecrease()
+    {
+        if(soundBarValue != 1f)
+        {
+            soundBarValue += 0.125f;
+            SoundBarUpdate();
+        }
+    }
+
+    private void SoundBarUpdate()
+    {
+        soundBar.GetComponent<Image>().fillAmount = soundBarValue;
     }
 }
