@@ -1,16 +1,27 @@
+/*
+ * https://en.wikipedia.org/wiki/Light_Up_(puzzle)
+ * This script must be on every bulb on Light Up puzzle
+ * each bulbs that are in the same puzzle should have same GameObject wall
+ * each bulbs that are in the same puzzle should have it's upper side, lower side, right side and left side bulb GameObject 
+ * if the bulb is at the edge of the puzzle, the GameObjects can be null objects
+ * each bulbs can be modified by changing the status. bulb is turned on if the status is ture
+ * if all bulbs are turned on, the wall will disapear and the bulbs cannot be used anymore.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Puzzle : MonoBehaviour
 {
-    public bool status;
-    public bool canBeUsed = true;
+    public bool status = false;
     public GameObject wall;
     public GameObject upObj;
     public GameObject downObj;
     public GameObject leftObj;
     public GameObject rightObj;
+
+    private bool canBeUsed = true;
 
     void Start()
     {
@@ -38,7 +49,6 @@ public class Puzzle : MonoBehaviour
         {
             stopUsage(true, true, true, true);
             wall.SetActive(false);
-            Debug.Log("Finished");
         }
     }
 
