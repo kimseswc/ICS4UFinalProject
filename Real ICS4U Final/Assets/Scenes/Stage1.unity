@@ -1358,7 +1358,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  canBeUsed: 1
   wall: {fileID: 498868160}
   upObj: {fileID: 0}
   downObj: {fileID: 275420149}
@@ -17109,7 +17108,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  canBeUsed: 1
   wall: {fileID: 498868160}
   upObj: {fileID: 138459015}
   downObj: {fileID: 0}
@@ -18258,7 +18256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  canBeUsed: 1
   wall: {fileID: 498868160}
   upObj: {fileID: 0}
   downObj: {fileID: 844455163}
@@ -18374,7 +18371,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  canBeUsed: 1
   wall: {fileID: 498868160}
   upObj: {fileID: 1409987408}
   downObj: {fileID: 0}
@@ -19422,7 +19418,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  canBeUsed: 1
   wall: {fileID: 498868160}
   upObj: {fileID: 1502468671}
   downObj: {fileID: 0}
@@ -21353,7 +21348,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  canBeUsed: 1
   wall: {fileID: 498868160}
   upObj: {fileID: 452076080}
   downObj: {fileID: 0}
@@ -24004,7 +23998,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  canBeUsed: 1
   wall: {fileID: 498868160}
   upObj: {fileID: 0}
   downObj: {fileID: 453169415}
@@ -24592,7 +24585,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  canBeUsed: 1
   wall: {fileID: 498868160}
   upObj: {fileID: 0}
   downObj: {fileID: 529036236}
@@ -25836,7 +25828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0efdca71e70eb4a12880b356f9373631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 979929559}
+  playerGameObject: {fileID: 979929559}
   QuickSlotUIobj: {fileID: 719406675}
 --- !u!1 &1751724859
 GameObject:

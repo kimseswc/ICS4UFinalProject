@@ -6,33 +6,29 @@ using TMPro;
 
 public class HUD : MonoBehaviour
 {
-    public GameObject player;
-    private CharacterController2D script;
+    public GameObject playerGameObject;
+    private CharacterController2D player;
     public GameObject QuickSlotUIobj;
 
     private Transform HealthBarUI;
     private Transform MoneyUI;
     private Transform QuickSlotUI;
     
-
-    // Start is called before the first frame update
     void Start()
     {
-        script = player.GetComponent<CharacterController2D>();
+        player = playerGameObject.GetComponent<CharacterController2D>();
         HealthBarUI = transform.Find("HealthBarUI");
         MoneyUI = transform.Find("MoneyUI");
         QuickSlotUI = transform.Find("QuickSlotUI");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        HealthBarUI.Find("HealthBar").GetComponent<Image>().fillAmount = ((float)script.health / (float)script.maxHealth);
-        HealthBarUI.Find("HealthBarText").GetComponent<TextMeshProUGUI>().SetText(script.health.ToString() + " / " + script.maxHealth.ToString());
-        MoneyUI.Find("MoneyText").GetComponent<TextMeshProUGUI>().SetText("$ " + script.money.ToString());
-        QuickSlotUI.Find("QuickSlotSprite").GetComponent<Image>().sprite = ShopItemList.GetSprite(script.quickSlotItem);
-        QuickSlotUI.Find("QuickSlotText").GetComponent<TextMeshProUGUI>().SetText(script.quickSlotItemAmount.ToString());
-        QuickSlotUIobj.SetActive(script.quickSlotItemAmount > 0);
-
+        HealthBarUI.Find("HealthBar").GetComponent<Image>().fillAmount = ((float)player.health / (float)player.maxHealth);
+        HealthBarUI.Find("HealthBarText").GetComponent<TextMeshProUGUI>().SetText(player.health.ToString() + " / " + player.maxHealth.ToString());
+        MoneyUI.Find("MoneyText").GetComponent<TextMeshProUGUI>().SetText("$ " + player.money.ToString());
+        QuickSlotUI.Find("QuickSlotSprite").GetComponent<Image>().sprite = ShopItemList.GetSprite(player.quickSlotItem);
+        QuickSlotUI.Find("QuickSlotText").GetComponent<TextMeshProUGUI>().SetText(player.quickSlotItemAmount.ToString());
+        QuickSlotUIobj.SetActive(player.quickSlotItemAmount > 0);
     }
 }
