@@ -16,15 +16,18 @@ public class Conversation : MonoBehaviour
     public GameObject conversationUIobj;
     public Transform playerConversationUI;
     public GameObject playerConversationUIobj;
+    private GameObject pressx;
 
     // Start is called before the first frame update
     void Start()
     {
+        pressx = transform.Find("PressX").gameObject;
         dialogue = textAsset.text.Split(new string[] { "\n" }, StringSplitOptions.None);
     }
 
     public void nextLine()
     {
+        pressx.SetActive(false);
         if(page*2 >= dialogue.Length)
         {
             conversationUIobj.SetActive(false);
