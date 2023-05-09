@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour
     private GameObject startMenu;
     private GameObject pauseMenu;
     private GameObject optionMenu;
-    private float soundBarValue = 0.5f;
+    public static float soundBarValue = 0.5f;
     private int previousMenu = -1; // 0: pauseMenu, 1: startMenu
     // Start is called before the first frame update
     void Start()
@@ -130,5 +130,6 @@ public class MenuManager : MonoBehaviour
     private void SoundBarUpdate()
     {
         soundBar.GetComponent<Image>().fillAmount = soundBarValue;
+        Debug.Log(soundBarValue);
     }
 }
