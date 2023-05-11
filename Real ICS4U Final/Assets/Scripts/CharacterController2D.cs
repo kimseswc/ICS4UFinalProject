@@ -7,9 +7,7 @@ public class CharacterController2D : MonoBehaviour
     private Collision coll;
     public Rigidbody2D rb;
     public LayerMask enemyLayer;
-    public LayerMask shopLayer;
-    public LayerMask npcLayer;
-    public LayerMask puzzleLayer;
+    public LayerMask interactLayer;
     public Transform attackPoint;
     public Transform interactPoint;
     public Animator swordAnimator;
@@ -180,30 +178,24 @@ public class CharacterController2D : MonoBehaviour
 
     private void Interact()
     {
-        Collider2D[] c = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, shopLayer);
+        Collider2D[] c = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, interactLayer);
 
-        foreach(Collider2D NPC in c)
+        foreach (Collider2D interact in c)
         {
-            NPC.GetComponent<Shop>().OpenShop();
-            inUI ^= true;
-            return;
-        }
-
-        
-        c = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, npcLayer);
-
-        foreach (Collider2D NPC in c)
-        {
-            
-            NPC.GetComponent<Conversation>().nextLine();
-            return;
-        }
-
-        c = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, puzzleLayer);
-        foreach(Collider2D bulb in c)
-        {
-            bulb.GetComponent<Puzzle>().interactSwitch();
-            return;
+            if (interact.tag == "shop")
+            {
+                interact.GetComponent<Shop>().OpenShop(); inUI ^= true;
+                return;
+            }
+            else if (interact.tag == "dialogue")
+            {
+                interact.GetComponent<Conversation>().nextLine();
+                return;
+            }
+            else if (interact.tag == "puzzle")
+            {
+                interact.GetComponent<Puzzle>().interactSwitch();
+            }
         }
     }
 
