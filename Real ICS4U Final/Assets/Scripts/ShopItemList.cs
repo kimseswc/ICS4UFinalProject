@@ -14,7 +14,8 @@ public class ShopItemList: MonoBehaviour
         Sword_3,
         Potion_1,
         Potion_2,
-        Potion_3
+        Potion_3,
+        Coin
     }
 
     public static int GetEffect(ItemType itemType)
@@ -31,6 +32,7 @@ public class ShopItemList: MonoBehaviour
             case ItemType.Potion_1: return 20;
             case ItemType.Potion_2: return 20;
             case ItemType.Potion_3: return 20;
+            case ItemType.Coin: return 0;
         }
     }
 
@@ -48,6 +50,7 @@ public class ShopItemList: MonoBehaviour
             case ItemType.Potion_1: return 20;
             case ItemType.Potion_2: return 20;
             case ItemType.Potion_3: return 20;
+            case ItemType.Coin: return 0;
         }
     }
 
@@ -65,6 +68,7 @@ public class ShopItemList: MonoBehaviour
         case ItemType.Potion_1: return GameAssets.i.Potion_1;
         case ItemType.Potion_2: return GameAssets.i.Potion_2;
         case ItemType.Potion_3: return GameAssets.i.Potion_3;
+        case ItemType.Coin: return GameAssets.i.Coin;
 
         }
     }

@@ -55,3 +55,4 @@ MonoBehaviour:
   Potion_3: {fileID: 21300000, guid: e2ee6587ee42524459496990e3b1445f, type: 3}
   bulbON: {fileID: 21300000, guid: de6da2b003c1d48abb08c4f836e6c42f, type: 3}
   bulbOFF: {fileID: 21300000, guid: 1a0f9f81c9eff4d329fef1997a553e62, type: 3}
+  Coin: {fileID: 21300000, guid: cee94329a13ef44849b64d46dbbd69ef, type: 3}

@@ -196,6 +196,10 @@ public class CharacterController2D : MonoBehaviour
             {
                 interact.GetComponent<Puzzle>().interactSwitch();
             }
+            else if(interact.tag == "chest")
+            {
+                interact.GetComponent<Chest>().interactChest();
+            }
         }
     }
 

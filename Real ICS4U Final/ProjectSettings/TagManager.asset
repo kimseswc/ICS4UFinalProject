@@ -3,7 +3,11 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - shop
+  - dialogue
+  - puzzle
+  - chest
   layers:
   - Default
   - TransparentFX
@@ -14,10 +18,10 @@ TagManager:
   - Player
   - Enemy
   - Interact
-  - shop
+  - 
   - Ground
-  - NPC
-  - Puzzle
+  - 
+  - 
   - 
   - 
   - 
