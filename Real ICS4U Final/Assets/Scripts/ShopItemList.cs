@@ -24,14 +24,14 @@ public class ShopItemList: MonoBehaviour
         {
             default:
             case ItemType.Armor_1: return 20;
-            case ItemType.Armor_2: return 40;
-            case ItemType.Armor_3: return 60;
-            case ItemType.Sword_1: return 10;
-            case ItemType.Sword_2: return 20;
-            case ItemType.Sword_3: return 30;
+            case ItemType.Armor_2: return 45;
+            case ItemType.Armor_3: return 70;
+            case ItemType.Sword_1: return 20;
+            case ItemType.Sword_2: return 45;
+            case ItemType.Sword_3: return 70;
             case ItemType.Potion_1: return 20;
-            case ItemType.Potion_2: return 20;
-            case ItemType.Potion_3: return 20;
+            case ItemType.Potion_2: return 45;
+            case ItemType.Potion_3: return 60;
             case ItemType.Coin: return 0;
         }
     }
@@ -41,15 +41,15 @@ public class ShopItemList: MonoBehaviour
         switch (itemType)
         {
             default:
-            case ItemType.Armor_1: return 30;
-            case ItemType.Armor_2: return 60;
-            case ItemType.Armor_3: return 100;
-            case ItemType.Sword_1: return 30;
-            case ItemType.Sword_2: return 60;
-            case ItemType.Sword_3: return 100;
+            case ItemType.Armor_1: return 40;
+            case ItemType.Armor_2: return 80;
+            case ItemType.Armor_3: return 120;
+            case ItemType.Sword_1: return 40;
+            case ItemType.Sword_2: return 80;
+            case ItemType.Sword_3: return 120;
             case ItemType.Potion_1: return 20;
-            case ItemType.Potion_2: return 20;
-            case ItemType.Potion_3: return 20;
+            case ItemType.Potion_2: return 30;
+            case ItemType.Potion_3: return 40;
             case ItemType.Coin: return 0;
         }
     }
