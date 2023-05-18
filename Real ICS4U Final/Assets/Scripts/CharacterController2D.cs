@@ -11,6 +11,7 @@ public class CharacterController2D : MonoBehaviour
     public Transform attackPoint;
     public Transform interactPoint;
     public Animator swordAnimator;
+    private TrailRenderer swordTrail;
 
     public int health = 100;
     public int maxHealth = 100;
@@ -40,6 +41,8 @@ public class CharacterController2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collision>();
         Physics2D.IgnoreLayerCollision(6, 7, true);
+        swordTrail = transform.Find("PlayerSword").Find("Trail").GetComponent<TrailRenderer>();
+        swordTrail.enabled = false;
     }
 
     void Update()
@@ -159,7 +162,9 @@ public class CharacterController2D : MonoBehaviour
 
     private void Attack()
     {
+        swordTrail.enabled = true;
         swordAnimator.SetTrigger("Attack");
+        
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
         foreach (Collider2D enemy in hitEnemies)
@@ -173,6 +178,7 @@ public class CharacterController2D : MonoBehaviour
     {
         canAttack = false;
         yield return new WaitForSeconds(0.3f);
+        swordTrail.enabled = false;
         canAttack = true;
     }
 
