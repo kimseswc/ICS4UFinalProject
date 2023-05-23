@@ -12,6 +12,7 @@ public class CharacterController2D : MonoBehaviour
     public Transform interactPoint;
     public Animator swordAnimator;
     private TrailRenderer swordTrail;
+    private TrailRenderer dashTrail;
 
     public int health = 100;
     public int maxHealth = 100;
@@ -43,6 +44,8 @@ public class CharacterController2D : MonoBehaviour
         Physics2D.IgnoreLayerCollision(6, 7, true);
         swordTrail = transform.Find("PlayerSword").Find("Trail").GetComponent<TrailRenderer>();
         swordTrail.enabled = false;
+        dashTrail = transform.Find("Trail").GetComponent<TrailRenderer>();
+        dashTrail.enabled = false;
     }
 
     void Update()
@@ -133,6 +136,7 @@ public class CharacterController2D : MonoBehaviour
 
     IEnumerator DashWait(float x, float y)
     {
+        dashTrail.enabled = true;
         if((x == 1 || x == -1) && y == 0) rb.gravityScale = 0;
         isDashing = true;
 
@@ -140,6 +144,7 @@ public class CharacterController2D : MonoBehaviour
 
         rb.gravityScale = 1.5f;
         isDashing = false;
+        dashTrail.enabled = false;
     }
 
     private void WallSide()

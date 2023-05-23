@@ -28,6 +28,7 @@ public class BossMovement : MonoBehaviour
     private bool canDashAttack = true;
     private bool isDashAttackCooldown = false;
     private BoxCollider2D dashAttackBox;
+    private TrailRenderer swordTrail;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,8 @@ public class BossMovement : MonoBehaviour
         coll = GetComponent<Collision>();
         bc = transform.Find("AttackBox").GetComponent<BoxCollider2D>();
         dashAttackBox = transform.Find("DashAttackBox").GetComponent<BoxCollider2D>();
+        swordTrail = transform.Find("PlayerSword").Find("Trail").GetComponent<TrailRenderer>();
+        swordTrail.enabled = false;
     }
 
     // Update is called once per frame
@@ -126,6 +129,7 @@ public class BossMovement : MonoBehaviour
         canMove = false;
         yield return new WaitForSeconds(1f);
 
+        swordTrail.enabled = true;
         isDashing = true;
         canDashAttack = true;
         rb.velocity = Vector2.zero;
@@ -133,6 +137,7 @@ public class BossMovement : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         rb.velocity = Vector2.zero;
+        swordTrail.enabled = false;
         yield return new WaitForSeconds(3f);
 
         canAttack = true;
@@ -147,10 +152,12 @@ public class BossMovement : MonoBehaviour
         canAttack = canMove = false;
         yield return new WaitForSeconds(0.7f);
         swordAnimator.SetTrigger("Attack");
+        swordTrail.enabled = true;
         yield return new WaitForSeconds(0.1f);
         Collider2D[] cols = Physics2D.OverlapBoxAll(bc.bounds.center, bc.bounds.extents, 0f, LayerMask.GetMask("Player"));
         foreach (Collider2D c in cols) c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
         yield return new WaitForSeconds(0.7f);
         canAttack = canMove = true;
+        swordTrail.enabled = false;
     }
 }
