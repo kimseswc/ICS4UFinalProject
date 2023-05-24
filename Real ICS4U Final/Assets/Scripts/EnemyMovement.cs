@@ -16,6 +16,7 @@ public class EnemyMovement : MonoBehaviour
     public int attackDamage = 10;
     public GameObject player;
     public Animator swordAnimator;
+    private TrailRenderer swordTrail;
 
     private bool inAgro = false;
     private bool canAttack = true;
@@ -28,6 +29,8 @@ public class EnemyMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collision>();
         bc = transform.Find("AttackBox").GetComponent<BoxCollider2D>();
+        swordTrail = transform.Find("PlayerSword").Find("Trail").GetComponent<TrailRenderer>();
+        swordTrail.enabled = false;
     }
 
     // Update is called once per frame
@@ -95,13 +98,16 @@ public class EnemyMovement : MonoBehaviour
 
     IEnumerator Attack()
     {
+        
         canAttack = canMove = false;
         yield return new WaitForSeconds(0.7f);
         swordAnimator.SetTrigger("Attack");
+        swordTrail.enabled = true;
         yield return new WaitForSeconds(0.1f);
         Collider2D[] cols = Physics2D.OverlapBoxAll(bc.bounds.center, bc.bounds.extents, 0f, LayerMask.GetMask("Player"));
         foreach (Collider2D c in cols) c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
         yield return new WaitForSeconds(0.7f);
         canAttack = canMove = true;
+        swordTrail.enabled = false;
     }
 }
