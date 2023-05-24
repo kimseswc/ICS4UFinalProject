@@ -29,6 +29,7 @@ public class BossMovement : MonoBehaviour
     private bool isDashAttackCooldown = false;
     private BoxCollider2D dashAttackBox;
     private TrailRenderer swordTrail;
+    private ParticleSystem footDust;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +40,8 @@ public class BossMovement : MonoBehaviour
         dashAttackBox = transform.Find("DashAttackBox").GetComponent<BoxCollider2D>();
         swordTrail = transform.Find("PlayerSword").Find("Trail").GetComponent<TrailRenderer>();
         swordTrail.enabled = false;
+        footDust = transform.Find("FootParticle").GetComponent<ParticleSystem>();
+
     }
 
     // Update is called once per frame
@@ -104,6 +107,7 @@ public class BossMovement : MonoBehaviour
     private void Walk(Vector2 dir)
     {
         rb.velocity = (new Vector2(dir.x * speed, rb.velocity.y));
+        footDust.Play();
     }
 
     private void Jump()

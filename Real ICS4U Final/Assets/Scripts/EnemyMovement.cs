@@ -17,6 +17,7 @@ public class EnemyMovement : MonoBehaviour
     public GameObject player;
     public Animator swordAnimator;
     private TrailRenderer swordTrail;
+    private ParticleSystem footDust;
 
     private bool inAgro = false;
     private bool canAttack = true;
@@ -31,6 +32,7 @@ public class EnemyMovement : MonoBehaviour
         bc = transform.Find("AttackBox").GetComponent<BoxCollider2D>();
         swordTrail = transform.Find("PlayerSword").Find("Trail").GetComponent<TrailRenderer>();
         swordTrail.enabled = false;
+        footDust = transform.Find("FootParticle").GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -78,6 +80,7 @@ public class EnemyMovement : MonoBehaviour
     private void Walk(Vector2 dir)
     {
         rb.velocity = (new Vector2(dir.x * speed, rb.velocity.y));
+        footDust.Play();
     }
 
     private void Jump()
