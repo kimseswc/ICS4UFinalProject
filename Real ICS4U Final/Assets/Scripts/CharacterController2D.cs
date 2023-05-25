@@ -14,6 +14,7 @@ public class CharacterController2D : MonoBehaviour
     private TrailRenderer swordTrail;
     private TrailRenderer dashTrail;
     private ParticleSystem footDust;
+    private Animator playerAnimator;
 
     public int health = 100;
     public int maxHealth = 100;
@@ -48,6 +49,7 @@ public class CharacterController2D : MonoBehaviour
         dashTrail = transform.Find("Trail").GetComponent<TrailRenderer>();
         dashTrail.enabled = false;
         footDust = transform.Find("FootParticle").GetComponent<ParticleSystem>();
+        playerAnimator = GetComponent<Animator>();
     }
 
     void Update()
@@ -62,6 +64,15 @@ public class CharacterController2D : MonoBehaviour
         if(!inUI && !isDashing) {
             Walk(dir);
             if (xRaw != 0 && coll.onGround) footDust.Play();
+
+            if (x != 0)
+            {
+                playerAnimator.SetBool("PlayerWalking", true);
+            }
+            else
+            {
+                playerAnimator.SetBool("PlayerWalking", false);
+            }
         }
 
         if (Input.GetKeyDown("c"))
