@@ -113,7 +113,7 @@ TextureImporter:
         width: 17
         height: 23
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,7 +134,7 @@ TextureImporter:
         width: 17
         height: 23
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -155,7 +155,7 @@ TextureImporter:
         width: 17
         height: 23
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -163,6 +163,174 @@ TextureImporter:
       bones: []
       spriteID: 65cc24ab7901841cc8be33a2e2c41fa9
       internalID: 1174546251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossWalk1
+      rect:
+        serializedVersion: 2
+        x: 229
+        y: 146
+        width: 27
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44d852ade6f27477a8d29a417be115a8
+      internalID: -1329441713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossWalk2
+      rect:
+        serializedVersion: 2
+        x: 273
+        y: 147
+        width: 27
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22543cb155c8c4317b30bb7213fd0300
+      internalID: 315341877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossWalk3
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 147
+        width: 27
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2c7a0fef98e445c3a34042e93f462ff
+      internalID: -1546077542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: BossDefault
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 146
+        width: 24
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b167401fe3c2d40a3892406e93dbf22c
+      internalID: -1590380113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyDefault
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 73
+        width: 17
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08b77272565e042fbab8189bc3e4cf94
+      internalID: -912805826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyWalk1
+      rect:
+        serializedVersion: 2
+        x: 276
+        y: 72
+        width: 17
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9718c574641bc4c60aaa52412a5fef53
+      internalID: 2063503449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyWalk2
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 72
+        width: 17
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcbac3c8eaa534a548fd73ba97a12585
+      internalID: -1204693014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: EnemyWalk3
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 72
+        width: 17
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cac40f656e83541b3b94a731cdcd6721
+      internalID: 1798977521
       vertices: []
       indices: 
       edges: []
@@ -178,8 +346,16 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      BossDefault: -1590380113
+      EnemyDefault: -912805826
+      EnemyWalk2: -1204693014
+      EnemyWalk1: 2063503449
+      BossWalk1: -1329441713
       PlayerWalk2: 1174546251
+      EnemyWalk3: 1798977521
+      BossWalk2: 315341877
       PlayerDefault: 1548948029
+      BossWalk3: -1546077542
       PlayerWalk1: -707116361
   spritePackingTag: 
   pSDRemoveMatte: 0
