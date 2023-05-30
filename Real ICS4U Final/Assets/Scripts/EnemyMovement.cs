@@ -16,6 +16,7 @@ public class EnemyMovement : MonoBehaviour
     public int attackDamage = 10;
     public GameObject player;
     public Animator swordAnimator;
+    private Animator enemyAnimator;
     private TrailRenderer swordTrail;
     private ParticleSystem footDust;
 
@@ -33,6 +34,7 @@ public class EnemyMovement : MonoBehaviour
         swordTrail = transform.Find("PlayerSword").Find("Trail").GetComponent<TrailRenderer>();
         swordTrail.enabled = false;
         footDust = transform.Find("FootParticle").GetComponent<ParticleSystem>();
+        enemyAnimator = transform.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -42,10 +44,13 @@ public class EnemyMovement : MonoBehaviour
         if (!inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) < detectRadius)
         {
             inAgro = true;
+            enemyAnimator.SetBool("EnemyInAgro", true);
         }
         else if (inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) > ignoreRadius)
         {
             inAgro = false;
+            enemyAnimator.SetBool("EnemyWalking", false);
+            enemyAnimator.SetBool("EnemyInAgro", false);
         }
 
         if(0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < attackRadius && canAttack)
@@ -55,6 +60,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (inAgro && canMove)
         {
+            enemyAnimator.SetBool("EnemyWalking", true);
             if(player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
             {
                 Jump();
@@ -73,6 +79,10 @@ public class EnemyMovement : MonoBehaviour
                 side = -1;
                 Walk(new Vector2(-0.8f, 0));
             }
+        }
+        else
+        {
+            enemyAnimator.SetBool("EnemyWalking", false);
         }
 
     }
