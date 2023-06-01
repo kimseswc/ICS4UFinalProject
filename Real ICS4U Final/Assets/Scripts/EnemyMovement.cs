@@ -19,6 +19,7 @@ public class EnemyMovement : MonoBehaviour
     private Animator enemyAnimator;
     private TrailRenderer swordTrail;
     private ParticleSystem footDust;
+    private GameObject sword;
 
     private bool inAgro = false;
     private bool canAttack = true;
@@ -35,6 +36,8 @@ public class EnemyMovement : MonoBehaviour
         swordTrail.enabled = false;
         footDust = transform.Find("FootParticle").GetComponent<ParticleSystem>();
         enemyAnimator = transform.GetComponent<Animator>();
+        sword = transform.Find("PlayerSword").gameObject;
+        sword.SetActive(false);
     }
 
     // Update is called once per frame
@@ -45,12 +48,14 @@ public class EnemyMovement : MonoBehaviour
         {
             inAgro = true;
             enemyAnimator.SetBool("EnemyInAgro", true);
+            sword.SetActive(true);
         }
         else if (inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) > ignoreRadius)
         {
             inAgro = false;
             enemyAnimator.SetBool("EnemyWalking", false);
             enemyAnimator.SetBool("EnemyInAgro", false);
+            sword.SetActive(false);
         }
 
         if(0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < attackRadius && canAttack)
