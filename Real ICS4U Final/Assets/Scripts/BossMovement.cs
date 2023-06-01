@@ -19,6 +19,8 @@ public class BossMovement : MonoBehaviour
     public float dashSpeed = 8;
     public GameObject player;
     public Animator swordAnimator;
+    private Animator bossAnimator;
+    private GameObject sword;
 
     private bool inAgro = false;
     private bool canAttack = true;
@@ -41,7 +43,9 @@ public class BossMovement : MonoBehaviour
         swordTrail = transform.Find("PlayerSword").Find("Trail").GetComponent<TrailRenderer>();
         swordTrail.enabled = false;
         footDust = transform.Find("FootParticle").GetComponent<ParticleSystem>();
-
+        bossAnimator = transform.GetComponent<Animator>();
+        sword = transform.Find("PlayerSword").gameObject;
+        sword.SetActive(false);
     }
 
     // Update is called once per frame
@@ -50,10 +54,15 @@ public class BossMovement : MonoBehaviour
         if (!inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) < detectRadius)
         {
             inAgro = true;
+            bossAnimator.SetBool("BossInAgro", true);
+            sword.SetActive(true);
         }
         else if (inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) > ignoreRadius)
         {
             inAgro = false;
+            bossAnimator.SetBool("BossWalking", false);
+            bossAnimator.SetBool("BossInAgro", false);
+            sword.SetActive(false);
         }
 
         if(canAttack)
@@ -70,6 +79,7 @@ public class BossMovement : MonoBehaviour
 
         if (inAgro && canMove)
         {
+            bossAnimator.SetBool("BossWalking", true);
             if (player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
             {
                 Jump();
@@ -88,6 +98,10 @@ public class BossMovement : MonoBehaviour
                 side = -1;
                 Walk(new Vector2(-0.8f, 0));
             }
+        }
+        else
+        {
+            bossAnimator.SetBool("BossWalking", false);
         }
 
         //if in attack range for certain time
