@@ -30,5 +30,6 @@ public class GameAssets : MonoBehaviour
     public Sprite bulbON;
     public Sprite bulbOFF;
     public Sprite Coin;
+    public AudioClip swordAttack;
 }
 

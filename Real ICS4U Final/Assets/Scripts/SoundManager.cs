@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static void PlaySound(AudioSource audio)
+    public static void PlaySound(AudioSource audio, AudioClip clip)
     {
         audio.volume = MenuManager.soundBarValue;
-        audio.Play();
+        audio.PlayOneShot(clip);
     }
 }

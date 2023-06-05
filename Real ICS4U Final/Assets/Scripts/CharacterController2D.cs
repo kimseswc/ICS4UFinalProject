@@ -15,6 +15,7 @@ public class CharacterController2D : MonoBehaviour
     private TrailRenderer dashTrail;
     private ParticleSystem footDust;
     private Animator playerAnimator;
+    private AudioSource audioSource;
 
     public int health = 100;
     public int maxHealth = 100;
@@ -50,6 +51,7 @@ public class CharacterController2D : MonoBehaviour
         dashTrail.enabled = false;
         footDust = transform.Find("FootParticle").GetComponent<ParticleSystem>();
         playerAnimator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -105,6 +107,7 @@ public class CharacterController2D : MonoBehaviour
 
         if (!inUI && Input.GetKeyDown("z") && canAttack)
         {
+            SoundManager.PlaySound(audioSource, GameAssets.i.swordAttack);
             Attack();
         }
 
