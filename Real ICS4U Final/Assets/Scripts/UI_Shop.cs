@@ -14,6 +14,7 @@ public class UI_Shop : MonoBehaviour
     private Transform swordShop;
     private Transform potionShop;
     private Transform shopItemTemplate;
+    public AudioSource soundEffectPlayer;
 
     private void Awake()
     {
@@ -61,8 +62,9 @@ public class UI_Shop : MonoBehaviour
 
     private void TryBuyItem(ShopItemList.ItemType i, int itemCost)
     {
+        SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
         // if it is not possible to replace the quickslot, it will not try to buy potion
-        if(i == ShopItemList.ItemType.Potion_1 || i == ShopItemList.ItemType.Potion_2 || i == ShopItemList.ItemType.Potion_3)
+        if (i == ShopItemList.ItemType.Potion_1 || i == ShopItemList.ItemType.Potion_2 || i == ShopItemList.ItemType.Potion_3)
         {
             if(i != player.quickSlotItem)
             {

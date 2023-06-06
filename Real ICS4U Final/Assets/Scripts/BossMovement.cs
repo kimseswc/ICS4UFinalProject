@@ -21,6 +21,7 @@ public class BossMovement : MonoBehaviour
     public Animator swordAnimator;
     private Animator bossAnimator;
     private GameObject sword;
+    private AudioSource audioSource;
 
     private bool inAgro = false;
     private bool canAttack = true;
@@ -46,6 +47,7 @@ public class BossMovement : MonoBehaviour
         bossAnimator = transform.GetComponent<Animator>();
         sword = transform.Find("PlayerSword").gameObject;
         sword.SetActive(false);
+        audioSource = transform.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -53,6 +55,7 @@ public class BossMovement : MonoBehaviour
     {
         if (!inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) < detectRadius)
         {
+            SoundManager.PlaySound(audioSource, GameAssets.i.enemyAgroOn);
             inAgro = true;
             bossAnimator.SetBool("BossInAgro", true);
             sword.SetActive(true);
@@ -82,6 +85,7 @@ public class BossMovement : MonoBehaviour
             bossAnimator.SetBool("BossWalking", true);
             if (player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
             {
+                SoundManager.PlaySound(audioSource, GameAssets.i.jump);
                 Jump();
             }
 
@@ -147,6 +151,7 @@ public class BossMovement : MonoBehaviour
         canMove = false;
         yield return new WaitForSeconds(1f);
 
+        SoundManager.PlaySound(audioSource, GameAssets.i.dashAttack);
         swordTrail.enabled = true;
         isDashing = true;
         canDashAttack = true;
@@ -169,6 +174,7 @@ public class BossMovement : MonoBehaviour
     {
         canAttack = canMove = false;
         yield return new WaitForSeconds(0.7f);
+        SoundManager.PlaySound(audioSource, GameAssets.i.swordAttack);
         swordAnimator.SetTrigger("Attack");
         swordTrail.enabled = true;
         yield return new WaitForSeconds(0.1f);

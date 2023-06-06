@@ -17,6 +17,7 @@ public class Conversation : MonoBehaviour
     public Transform playerConversationUI;
     public GameObject playerConversationUIobj;
     private GameObject pressx;
+    public AudioSource soundEffectPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +28,7 @@ public class Conversation : MonoBehaviour
 
     public void nextLine()
     {
+        SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
         pressx.SetActive(false);
         if(page*2 >= dialogue.Length)
         {

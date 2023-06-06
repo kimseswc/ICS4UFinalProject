@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     public int reward = 50;
     public Transform EnemyHealthBar;
     public GameObject EnemyHealthBarobj;
+    public AudioSource soundEffectPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         player.GetComponent<CharacterController2D>().money += reward;
+        SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.die);
         Destroy(gameObject);
     }
 }

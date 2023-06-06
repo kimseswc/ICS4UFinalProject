@@ -57,3 +57,10 @@ MonoBehaviour:
   bulbOFF: {fileID: 21300000, guid: 1a0f9f81c9eff4d329fef1997a553e62, type: 3}
   Coin: {fileID: 21300000, guid: 62f6e8707e0b04b338a6337cb6da7cb2, type: 3}
   swordAttack: {fileID: 8300000, guid: b1c43de24da30478cbed6783206513cc, type: 3}
+  dashAttack: {fileID: 8300000, guid: e03405457484d4402a7fd61599cd55fe, type: 3}
+  dash: {fileID: 8300000, guid: a59f551ac9f2b444e9b59a8507c659c4, type: 3}
+  usePotion: {fileID: 8300000, guid: ee60193ef3b634bec9b715dfbbb163ae, type: 3}
+  buttonClick: {fileID: 8300000, guid: 794a392a5f3d2452c96d71cdd32d048e, type: 3}
+  jump: {fileID: 8300000, guid: 873657ac553aa402c820ecdf8eb249d3, type: 3}
+  enemyAgroOn: {fileID: 8300000, guid: 4d2a1f90297bc414aa24acb16d717e1f, type: 3}
+  die: {fileID: 8300000, guid: ae72a82a96e69411ba34fa89f991e81b, type: 3}

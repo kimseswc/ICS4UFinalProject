@@ -20,6 +20,7 @@ public class EnemyMovement : MonoBehaviour
     private TrailRenderer swordTrail;
     private ParticleSystem footDust;
     private GameObject sword;
+    private AudioSource audioSource;
 
     private bool inAgro = false;
     private bool canAttack = true;
@@ -38,6 +39,7 @@ public class EnemyMovement : MonoBehaviour
         enemyAnimator = transform.GetComponent<Animator>();
         sword = transform.Find("PlayerSword").gameObject;
         sword.SetActive(false);
+        audioSource = transform.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -46,6 +48,7 @@ public class EnemyMovement : MonoBehaviour
 
         if (!inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) < detectRadius)
         {
+            SoundManager.PlaySound(audioSource, GameAssets.i.enemyAgroOn);
             inAgro = true;
             enemyAnimator.SetBool("EnemyInAgro", true);
             sword.SetActive(true);
@@ -68,6 +71,7 @@ public class EnemyMovement : MonoBehaviour
             enemyAnimator.SetBool("EnemyWalking", true);
             if(player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
             {
+                SoundManager.PlaySound(audioSource, GameAssets.i.jump);
                 Jump();
             }
 
@@ -119,6 +123,7 @@ public class EnemyMovement : MonoBehaviour
         
         canAttack = canMove = false;
         yield return new WaitForSeconds(0.7f);
+        SoundManager.PlaySound(audioSource, GameAssets.i.swordAttack);
         swordAnimator.SetTrigger("Attack");
         swordTrail.enabled = true;
         yield return new WaitForSeconds(0.1f);

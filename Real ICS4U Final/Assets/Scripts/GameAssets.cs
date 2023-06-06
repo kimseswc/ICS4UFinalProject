@@ -31,5 +31,12 @@ public class GameAssets : MonoBehaviour
     public Sprite bulbOFF;
     public Sprite Coin;
     public AudioClip swordAttack;
+    public AudioClip dashAttack;
+    public AudioClip dash;
+    public AudioClip usePotion;
+    public AudioClip buttonClick;
+    public AudioClip jump;
+    public AudioClip enemyAgroOn;
+    public AudioClip die;
 }
 

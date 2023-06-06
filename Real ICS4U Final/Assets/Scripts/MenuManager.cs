@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
     private GameObject startMenu;
     private GameObject pauseMenu;
     private GameObject optionMenu;
+    public AudioSource soundEffectPlayer;
     public static float soundBarValue = 0.5f;
     private int previousMenu = -1; // 0: pauseMenu, 1: startMenu
     // Start is called before the first frame update
@@ -40,7 +41,8 @@ public class MenuManager : MonoBehaviour
     {
         if(!startMenuOnScreen && Input.GetKeyDown("escape"))
         {
-            if(optionMenuOnScreen)
+            SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
+            if (optionMenuOnScreen)
             {
                 Option_Resume();
             }
@@ -60,6 +62,7 @@ public class MenuManager : MonoBehaviour
 
     public void StartGame()
     {
+        SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
         startMenu.SetActive(false);
         startMenuOnScreen = false;
     }
@@ -71,13 +74,15 @@ public class MenuManager : MonoBehaviour
 
     public void Pause_Resume()
     {
+        SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
         pauseMenu.SetActive(false);
         pauseMenuOnScreen = false;
     }
 
     public void Option_Open()
     {
-        if(pauseMenuOnScreen)
+        SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
+        if (pauseMenuOnScreen)
         {
             pauseMenuOnScreen = false;
             previousMenu = 0; // previous = pauseMenu
@@ -95,6 +100,7 @@ public class MenuManager : MonoBehaviour
 
     public void Option_Resume()
     {
+        SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
         optionMenu.SetActive(false);
         optionMenuOnScreen = false;
         if(previousMenu == 0) // previous = pauseMenu
@@ -111,6 +117,7 @@ public class MenuManager : MonoBehaviour
 
     public void SoundIncrease()
     {
+        SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
         if (soundBarValue != 0f)
         {
             soundBarValue -= 0.125f;
@@ -120,7 +127,8 @@ public class MenuManager : MonoBehaviour
 
     public void SoundDecrease()
     {
-        if(soundBarValue != 1f)
+        SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
+        if (soundBarValue != 1f)
         {
             soundBarValue += 0.125f;
             SoundBarUpdate();

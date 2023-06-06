@@ -79,7 +79,11 @@ public class CharacterController2D : MonoBehaviour
 
         if (Input.GetKeyDown("c"))
         {
-            if(!inUI && coll.onGround && !isDashing) Jump();
+            if (!inUI && coll.onGround && !isDashing)
+            {
+                SoundManager.PlaySound(audioSource, GameAssets.i.jump);
+                Jump();
+            }
         }
 
         if(Input.GetKeyDown("left shift"))
@@ -88,6 +92,7 @@ public class CharacterController2D : MonoBehaviour
             {
                 if(health != maxHealth)
                 {
+                    SoundManager.PlaySound(audioSource, GameAssets.i.usePotion);
                     health = (health + quickSlotItemEffect > maxHealth ? maxHealth : health + quickSlotItemEffect);
                     quickSlotItemAmount--;
                 }
@@ -115,10 +120,12 @@ public class CharacterController2D : MonoBehaviour
         if(Input.GetKeyDown("x")) {
             if(xRaw == 0 && yRaw == 0)
             {
+                SoundManager.PlaySound(audioSource, GameAssets.i.buttonClick);
                 Interact();
             }
             else if(!inUI && (xRaw != 0 || yRaw != 0) && !hasDashed)
             {
+                SoundManager.PlaySound(audioSource, GameAssets.i.dash);
                 Dash(xRaw, yRaw);
             }
         }
