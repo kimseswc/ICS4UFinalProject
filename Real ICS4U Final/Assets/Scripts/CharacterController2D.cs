@@ -120,7 +120,6 @@ public class CharacterController2D : MonoBehaviour
         if(Input.GetKeyDown("x")) {
             if(xRaw == 0 && yRaw == 0)
             {
-                SoundManager.PlaySound(audioSource, GameAssets.i.buttonClick);
                 Interact();
             }
             else if(!inUI && (xRaw != 0 || yRaw != 0) && !hasDashed)
@@ -217,21 +216,25 @@ public class CharacterController2D : MonoBehaviour
         {
             if (interact.tag == "shop")
             {
+                SoundManager.PlaySound(audioSource, GameAssets.i.buttonClick);
                 interact.GetComponent<Shop>().OpenShop(); inUI ^= true;
                 return;
             }
             else if (interact.tag == "dialogue")
             {
+                SoundManager.PlaySound(audioSource, GameAssets.i.buttonClick);
                 interact.GetComponent<Conversation>().nextLine();
                 return;
             }
             else if (interact.tag == "puzzle")
             {
+                SoundManager.PlaySound(audioSource, GameAssets.i.buttonClick);
                 interact.GetComponent<Puzzle>().interactSwitch();
                 return;
             }
             else if(interact.tag == "chest")
             {
+                SoundManager.PlaySound(audioSource, GameAssets.i.buttonClick);
                 interact.GetComponent<Chest>().interactChest();
                 return;
             }

@@ -64,3 +64,4 @@ MonoBehaviour:
   jump: {fileID: 8300000, guid: 873657ac553aa402c820ecdf8eb249d3, type: 3}
   enemyAgroOn: {fileID: 8300000, guid: 4d2a1f90297bc414aa24acb16d717e1f, type: 3}
   die: {fileID: 8300000, guid: ae72a82a96e69411ba34fa89f991e81b, type: 3}
+  BGM: {fileID: 8300000, guid: ce12f866a41be48eb8a292f5fa5d2ceb, type: 3}

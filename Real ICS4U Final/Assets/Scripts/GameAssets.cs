@@ -38,5 +38,6 @@ public class GameAssets : MonoBehaviour
     public AudioClip jump;
     public AudioClip enemyAgroOn;
     public AudioClip die;
+    public AudioClip BGM;
 }
 
