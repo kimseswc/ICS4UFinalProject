@@ -1,16 +1,8 @@
+﻿???
+Help!!
 You
 Who are you?
-Tutorial
-Hi, this is the tutorial for this game
-Tutorial
-you move left/right by pressing arrow keys
-Tutorial
-press c to jump
-Tutorial
-press x while not moving to acess shops and NPCs
-Tutorial
-press x while pressing arrow keys to dash to the pressed direction
-Tutorial
-press z to attack
-Tutorial
-press shift to use the item on your quick slot
+???
+Our village is in danger!
+???
+Please help us!!

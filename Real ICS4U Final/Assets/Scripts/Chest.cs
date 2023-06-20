@@ -17,6 +17,7 @@ public class Chest : MonoBehaviour
         rewardAnimator = transform.Find("ChestReward").GetComponent<Animator>();
     }
 
+    // called when player interacts with chest object
     public void interactChest()
     {
         if (isOpen) tryTakeItem();
@@ -38,6 +39,7 @@ public class Chest : MonoBehaviour
             return true;
         }
 
+        // if the rewardItem (potion) == player's quickslot's potion
         if (rewardItem == ShopItemList.ItemType.Potion_1 || rewardItem == ShopItemList.ItemType.Potion_2 || rewardItem == ShopItemList.ItemType.Potion_3)
         {
             if (rewardItem != player.quickSlotItem)
@@ -46,17 +48,21 @@ public class Chest : MonoBehaviour
             }
         }
 
+        // apply itemEffect by type to player
 
+        // armor, increase max health
         if (rewardItem == ShopItemList.ItemType.Armor_1 || rewardItem == ShopItemList.ItemType.Armor_2 || rewardItem == ShopItemList.ItemType.Armor_3)
         {
             player.AddMaxHealth(ShopItemList.GetEffect(rewardItem));
         }
 
+        // sword, increase damage
         else if (rewardItem == ShopItemList.ItemType.Sword_1 || rewardItem == ShopItemList.ItemType.Sword_2 || rewardItem == ShopItemList.ItemType.Sword_3)
         {
             player.AddDamage(ShopItemList.GetEffect(rewardItem));
         }
 
+        // add potion to quickslot
         else 
         {
             player.AddQuickSlotItem(rewardItem, ShopItemList.GetEffect(rewardItem));
@@ -65,6 +71,7 @@ public class Chest : MonoBehaviour
         return true;
     }
 
+    // when player takes item from chest, delete chest object
     private void tryTakeItem()
     {
         if(canTakeItem()) Destroy(gameObject);

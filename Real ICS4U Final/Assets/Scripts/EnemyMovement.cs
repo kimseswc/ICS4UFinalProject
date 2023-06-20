@@ -10,7 +10,7 @@ public class EnemyMovement : MonoBehaviour
     public LayerMask playerMask;
     public float speed = 5f;
     public float jumpForce = 9f;
-    public float detectRadius = 10f;
+    public float detectRadius = 7f;
     public float ignoreRadius = 15f;
     public float attackRadius = 2f;
     public int attackDamage = 10;
@@ -21,13 +21,11 @@ public class EnemyMovement : MonoBehaviour
     private ParticleSystem footDust;
     private GameObject sword;
     private AudioSource audioSource;
-
     private bool inAgro = false;
     private bool canAttack = true;
     private bool canMove = true;
     private int side = 1;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -42,11 +40,10 @@ public class EnemyMovement : MonoBehaviour
         audioSource = transform.GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-
-        if (!inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) < detectRadius)
+        // player detection. changees inAgro true <--> false
+        if (!inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) < detectRadius && Mathf.Abs(player.transform.position.y - transform.position.y) < detectRadius)
         {
             SoundManager.PlaySound(audioSource, GameAssets.i.enemyAgroOn);
             inAgro = true;
@@ -61,6 +58,7 @@ public class EnemyMovement : MonoBehaviour
             sword.SetActive(false);
         }
 
+        // attack if player is close
         if(0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < attackRadius && canAttack)
         {
             StartCoroutine(Attack());
@@ -69,7 +67,9 @@ public class EnemyMovement : MonoBehaviour
         if (inAgro && canMove)
         {
             enemyAnimator.SetBool("EnemyWalking", true);
-            if(player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
+
+            // jump when player is above than boss
+            if (player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
             {
                 SoundManager.PlaySound(audioSource, GameAssets.i.jump);
                 Jump();
@@ -113,23 +113,30 @@ public class EnemyMovement : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
-        //Vector3 theScale2 = attackPoint.localScale;
-        //theScale2.x *= -1;
-        //attackPoint.localScale = theScale2;
     }
 
     IEnumerator Attack()
     {
-        
+        // stop moving
         canAttack = canMove = false;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.4f);
+
+        // play animation
         SoundManager.PlaySound(audioSource, GameAssets.i.swordAttack);
         swordAnimator.SetTrigger("Attack");
         swordTrail.enabled = true;
         yield return new WaitForSeconds(0.1f);
+
+        // get player hitbox collision. if collision detected, attack
         Collider2D[] cols = Physics2D.OverlapBoxAll(bc.bounds.center, bc.bounds.extents, 0f, LayerMask.GetMask("Player"));
-        foreach (Collider2D c in cols) c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
+        foreach (Collider2D c in cols)
+        {
+            c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
+            break;
+        }
         yield return new WaitForSeconds(0.7f);
+
+        // move
         canAttack = canMove = true;
         swordTrail.enabled = false;
     }

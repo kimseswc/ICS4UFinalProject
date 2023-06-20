@@ -1,0 +1,2 @@
+﻿Tutorial
+press 'c' to jump

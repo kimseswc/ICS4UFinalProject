@@ -1,0 +1,6 @@
+﻿Tutorial
+the item you just gained is a potion
+Tutorial
+you can have only 1 type of potion in your quick slot
+Tutorial
+press 'shift' to regain your HP by using it

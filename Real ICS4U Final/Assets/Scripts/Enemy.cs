@@ -13,32 +13,38 @@ public class Enemy : MonoBehaviour
     public Transform EnemyHealthBar;
     public GameObject EnemyHealthBarobj;
     public AudioSource soundEffectPlayer;
+    public Vector3 newPlayerSpawn;
+    public GameObject removingWall;
 
-    // Start is called before the first frame update
     void Start()
     {
         self = GetComponent<Rigidbody2D>();
         health = maxHealth;
         EnemyHealthBarobj.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Physics2D.IgnoreLayerCollision(7, 7, true);
     }
 
     public void TakeDamage(int damage)
     {
+        // if damaged by player, show health bar
         if(health != maxHealth) EnemyHealthBarobj.SetActive(true);
+
         health -= damage;
         if(health <= 0) Die();
+
+        // update health bar
         EnemyHealthBar.GetComponent<Image>().fillAmount = (float)health / (float)maxHealth;
     }
 
     void Die()
     {
+        // remove wall, set new spawn point if exist.
+        if (newPlayerSpawn != new Vector3(0, 0, 0)) player.GetComponent<CharacterController2D>().spawnPoint = newPlayerSpawn;
+        if (removingWall != null) removingWall.SetActive(false);
+
+        // add money to player
         player.GetComponent<CharacterController2D>().money += reward;
+
         SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.die);
         Destroy(gameObject);
     }

@@ -1,0 +1,4 @@
+﻿Tutorial
+press 'x' with arrow keys to dash
+Tutorial
+jump, then dash upwards to pass the obstacle

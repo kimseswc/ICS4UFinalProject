@@ -31,7 +31,7 @@ public class ShopItemList: MonoBehaviour
             case ItemType.Sword_3: return 70;
             case ItemType.Potion_1: return 20;
             case ItemType.Potion_2: return 45;
-            case ItemType.Potion_3: return 60;
+            case ItemType.Potion_3: return 70;
             case ItemType.Coin: return 0;
         }
     }
@@ -48,8 +48,8 @@ public class ShopItemList: MonoBehaviour
             case ItemType.Sword_2: return 80;
             case ItemType.Sword_3: return 120;
             case ItemType.Potion_1: return 20;
-            case ItemType.Potion_2: return 30;
-            case ItemType.Potion_3: return 40;
+            case ItemType.Potion_2: return 35;
+            case ItemType.Potion_3: return 50;
             case ItemType.Coin: return 0;
         }
     }

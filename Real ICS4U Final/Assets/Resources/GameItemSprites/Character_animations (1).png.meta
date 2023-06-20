@@ -356,6 +356,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: NPC1
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 389
+        width: 11
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c46c94e22d4fc443ea3737dc1dcb5e07
+      internalID: 828367081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NPC2
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 365
+        width: 11
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f88b1ce5aa9fd4946b547231dfc05276
+      internalID: 2054067322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -372,8 +414,10 @@ TextureImporter:
       EnemyWalk2: -1204693014
       EnemyWalk1: 2063503449
       BossWalk1: -1329441713
+      NPC1: 828367081
       Sword: 316613264
       PlayerWalk2: 1174546251
+      NPC2: 2054067322
       EnemyWalk3: 1798977521
       BossWalk2: 315341877
       PlayerDefault: 1548948029

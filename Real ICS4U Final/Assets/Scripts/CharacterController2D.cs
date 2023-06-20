@@ -16,7 +16,7 @@ public class CharacterController2D : MonoBehaviour
     private ParticleSystem footDust;
     private Animator playerAnimator;
     private AudioSource audioSource;
-
+    public MenuManager menuManager;
     public int health = 100;
     public int maxHealth = 100;
     public int money = 100;
@@ -31,15 +31,14 @@ public class CharacterController2D : MonoBehaviour
     public ShopItemList.ItemType quickSlotItem;
     public int quickSlotItemAmount = 0;
     public int quickSlotItemEffect = 0;
- 
     public bool canMove;
     public bool wallSlide;
     private bool isDashing;
     private bool hasDashed;
     private bool canAttack = true;
     public bool inUI = false;
+    public Vector3 spawnPoint = new Vector3(0, 0, 0);
     
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -52,6 +51,7 @@ public class CharacterController2D : MonoBehaviour
         footDust = transform.Find("FootParticle").GetComponent<ParticleSystem>();
         playerAnimator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        Screen.SetResolution(1920, 1080, false);
     }
 
     void Update()
@@ -63,6 +63,7 @@ public class CharacterController2D : MonoBehaviour
 
         Vector2 dir = new Vector2(x, y);
 
+        // walk to facing direction
         if(!inUI && !isDashing) {
             Walk(dir);
             if (xRaw != 0 && coll.onGround) footDust.Play();
@@ -88,6 +89,8 @@ public class CharacterController2D : MonoBehaviour
 
         if(Input.GetKeyDown("left shift"))
         {
+            // check if player has potion, if player is already max health
+            // if not, heal by potion's amount
             if(quickSlotItemAmount != 0)
             {
                 if(health != maxHealth)
@@ -99,6 +102,7 @@ public class CharacterController2D : MonoBehaviour
             }
         }
 
+        // if colliding with wall, slide
         if(coll.onWall && !coll.onGround && x != 0)
         {
             wallSlide = true;
@@ -116,8 +120,8 @@ public class CharacterController2D : MonoBehaviour
             Attack();
         }
 
-    
         if(Input.GetKeyDown("x")) {
+            // if no direction input
             if(xRaw == 0 && yRaw == 0)
             {
                 Interact();
@@ -134,7 +138,7 @@ public class CharacterController2D : MonoBehaviour
             hasDashed = false;
         }
 
-
+        // flip player image direction
         if(x > 0)
         {
             if(side == -1) Flip();
@@ -159,12 +163,13 @@ public class CharacterController2D : MonoBehaviour
 
     IEnumerator DashWait(float x, float y)
     {
+        // dash to direction
         dashTrail.enabled = true;
         if((x == 1 || x == -1) && y == 0) rb.gravityScale = 0;
         isDashing = true;
-
         yield return new WaitForSeconds(.3f);
 
+        // can dash
         rb.gravityScale = 1.5f;
         isDashing = false;
         dashTrail.enabled = false;
@@ -186,6 +191,7 @@ public class CharacterController2D : MonoBehaviour
         rb.velocity += Vector2.up * jumpForce;
     }
 
+    // get every enemy hitbox collision and damage the colliding enemy
     private void Attack()
     {
         swordTrail.enabled = true;
@@ -204,6 +210,7 @@ public class CharacterController2D : MonoBehaviour
     {
         canAttack = false;
         yield return new WaitForSeconds(0.3f);
+
         swordTrail.enabled = false;
         canAttack = true;
     }
@@ -212,30 +219,35 @@ public class CharacterController2D : MonoBehaviour
     {
         Collider2D[] c = Physics2D.OverlapCircleAll((Vector2)transform.position, interactRange, interactLayer);
 
-        foreach (Collider2D interact in c)
+        foreach (Collider2D obj in c)
         {
-            if (interact.tag == "shop")
+            // if interacting object is ...
+            if (obj.tag == "shop")
             {
+                // open UI
                 SoundManager.PlaySound(audioSource, GameAssets.i.buttonClick);
-                interact.GetComponent<Shop>().OpenShop(); inUI ^= true;
+                obj.GetComponent<Shop>().OpenShop(); inUI ^= true;
                 return;
             }
-            else if (interact.tag == "dialogue")
+            else if (obj.tag == "dialogue")
             {
+                // start dialogue
                 SoundManager.PlaySound(audioSource, GameAssets.i.buttonClick);
-                interact.GetComponent<Conversation>().nextLine();
+                obj.GetComponent<Conversation>().nextLine();
                 return;
             }
-            else if (interact.tag == "puzzle")
+            else if (obj.tag == "puzzle")
             {
+                // interact with light block
                 SoundManager.PlaySound(audioSource, GameAssets.i.buttonClick);
-                interact.GetComponent<Puzzle>().interactSwitch();
+                obj.GetComponent<Puzzle>().interactSwitch();
                 return;
             }
-            else if(interact.tag == "chest")
+            else if(obj.tag == "chest")
             {
+                // open chest
                 SoundManager.PlaySound(audioSource, GameAssets.i.buttonClick);
-                interact.GetComponent<Chest>().interactChest();
+                obj.GetComponent<Chest>().interactChest();
                 return;
             }
         }
@@ -285,6 +297,7 @@ public class CharacterController2D : MonoBehaviour
         attackDamage += amount;
     }
 
+    // add item to quick slot, increase the amount of duplicate item
     public void AddQuickSlotItem(ShopItemList.ItemType i, int effect)
     {
         quickSlotItemEffect = effect;
@@ -305,7 +318,8 @@ public class CharacterController2D : MonoBehaviour
         health = (health - amount < 0 ? 0 : health - amount);
         if(health == 0)
         {
-            transform.position = new Vector3(0, 0, 0);
+            menuManager.playerDied();
+            transform.position = spawnPoint;
             health = maxHealth;
         }
     }

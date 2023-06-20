@@ -1,0 +1,6 @@
+﻿Tutorial
+this is a light block
+Tutorial
+you can turn it on by clicking 'x' without arrow keys
+Tutorial
+your goal is to turn all light blocks

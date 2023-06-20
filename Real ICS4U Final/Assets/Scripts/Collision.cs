@@ -10,7 +10,6 @@ public class Collision : MonoBehaviour
     public bool onLeftWall;
     public bool onRightWall;
     public int wallSide;
-
     public Vector2 bottomOffset, rightOffset, leftOffset;
     public float collisionRadius = 0.3f;
 

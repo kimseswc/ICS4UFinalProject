@@ -18,26 +18,42 @@ public class Conversation : MonoBehaviour
     public GameObject playerConversationUIobj;
     private GameObject pressx;
     public AudioSource soundEffectPlayer;
+    public Vector3 newPlayerSpawn;
+    public GameObject removingWall;
+    public bool enfOF = false; // end of file
 
-    // Start is called before the first frame update
     void Start()
     {
         pressx = transform.Find("PressX").gameObject;
         dialogue = textAsset.text.Split(new string[] { "\n" }, StringSplitOptions.None);
     }
 
+    // dialogue[2 * page]   = character name
+    // dialogue[2 * page+1] = character's line
+
     public void nextLine()
     {
         SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
+
+        // dialogue played for the first time, so disable bobbing 'x' image
         pressx.SetActive(false);
+
+        // finished dialogue
         if(page*2 >= dialogue.Length)
         {
+            enfOF = true;
+            // remove wall, set new spawn point if exist.
+            if (newPlayerSpawn != new Vector3(0, 0, 0)) player.spawnPoint = newPlayerSpawn;
+            if (removingWall != null) removingWall.SetActive(false);
+
             conversationUIobj.SetActive(false);
             playerConversationUIobj.SetActive(false);
             player.inUI = false;
             return;
         }
         else player.inUI = true;
+
+        // check if the line is player's or npc's
         if(dialogue[page*2] == characterName)
         {
             conversationUIobj.SetActive(true);
@@ -53,8 +69,7 @@ public class Conversation : MonoBehaviour
             playerConversationUI.Find("ConversationText").GetComponent<TextMeshProUGUI>().SetText(dialogue[page * 2 + 1]);
         }
 
+        // next line
         page++;
     }
-
-    
 }

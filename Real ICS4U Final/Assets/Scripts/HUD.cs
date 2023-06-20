@@ -9,7 +9,6 @@ public class HUD : MonoBehaviour
     public GameObject playerGameObject;
     private CharacterController2D player;
     public GameObject QuickSlotUIobj;
-
     private Transform HealthBarUI;
     private Transform MoneyUI;
     private Transform QuickSlotUI;
@@ -22,6 +21,7 @@ public class HUD : MonoBehaviour
         QuickSlotUI = transform.Find("QuickSlotUI");
     }
 
+    // updates player's HUD
     void Update()
     {
         HealthBarUI.Find("HealthBar").GetComponent<Image>().fillAmount = ((float)player.health / (float)player.maxHealth);

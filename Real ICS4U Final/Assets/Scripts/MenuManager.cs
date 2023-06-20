@@ -7,24 +7,29 @@ using UnityEditor;
 
 public class MenuManager : MonoBehaviour
 {
+    public CharacterController2D player;
     public GameObject soundBar;
+    public GameObject BGMSoundPlayer; 
 
     private bool pauseMenuOnScreen = false;
     private bool startMenuOnScreen = false;
     private bool optionMenuOnScreen = false;
+    private bool deathMenuOnScreen = false;
     private GameObject startMenu;
     private GameObject pauseMenu;
     private GameObject optionMenu;
+    private GameObject deathMenu;
     public AudioSource soundEffectPlayer;
     public static float soundBarValue = 0.5f;
     private int previousMenu = -1; // 0: pauseMenu, 1: startMenu
-    // Start is called before the first frame update
+
     void Start()
     {
         gameObject.SetActive(true);
         startMenu = GameObject.Find("StartMenu");
         pauseMenu = GameObject.Find("PauseMenu");
         optionMenu = GameObject.Find("OptionMenu");
+        deathMenu = GameObject.Find("DeathMenu");
 
         pauseMenu.SetActive(false);
         pauseMenuOnScreen = false;
@@ -32,14 +37,15 @@ public class MenuManager : MonoBehaviour
         startMenuOnScreen = true;
         optionMenu.SetActive(false);
         optionMenuOnScreen = false;
+        deathMenu.SetActive(false);
+        deathMenuOnScreen = false;
 
         SoundBarUpdate();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(!startMenuOnScreen && Input.GetKeyDown("escape"))
+        if(!startMenuOnScreen && !deathMenuOnScreen && Input.GetKeyDown("escape"))
         {
             SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
             if (optionMenuOnScreen)
@@ -60,16 +66,25 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    // --- called by buttons in Menu gameObject.
+    public void playerDied()
+    {
+        deathMenu.SetActive(true);
+        deathMenuOnScreen = true;
+    }
+
     public void StartGame()
     {
         SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
         startMenu.SetActive(false);
         startMenuOnScreen = false;
+        deathMenu.SetActive(false);
+        deathMenuOnScreen = false;
     }
 
     public void QuitGame()
     {
-        //Application.Quit();
+        Application.Quit();
     }
 
     public void Pause_Resume()
@@ -134,10 +149,12 @@ public class MenuManager : MonoBehaviour
             SoundBarUpdate();
         }
     }
+    // ---
 
     private void SoundBarUpdate()
     {
         soundBar.GetComponent<Image>().fillAmount = soundBarValue;
+        BGMSoundPlayer.GetComponent<SoundManager>().BGMplayer.volume = soundBarValue;
         Debug.Log(soundBarValue);
     }
 }

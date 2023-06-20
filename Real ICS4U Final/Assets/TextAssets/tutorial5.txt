@@ -1,0 +1,8 @@
+﻿Tutorial
+you can get item in chest by interacting. press 'x'
+Tutorial
+you can use shop (green guy) by pressing 'x'
+Tutorial
+click the button of the item you want to buy
+Tutorial
+try buying an armour!

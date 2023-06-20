@@ -31,17 +31,17 @@ public class UI_Shop : MonoBehaviour
     {
         player = playerCL.GetComponent<CharacterController2D>();
 
-        CreateItemButton(ShopItemList.ItemType.Armor_1, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_1), "Armor 1", ShopItemList.GetCost(ShopItemList.ItemType.Armor_1), 0, armorShop);
-        CreateItemButton(ShopItemList.ItemType.Armor_2, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_2), "Armor 2", ShopItemList.GetCost(ShopItemList.ItemType.Armor_2), 1, armorShop);
-        CreateItemButton(ShopItemList.ItemType.Armor_3, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_3), "Armor 3", ShopItemList.GetCost(ShopItemList.ItemType.Armor_3), 2, armorShop);
+        CreateItemButton(ShopItemList.ItemType.Armor_1, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_1), "+20 max health", ShopItemList.GetCost(ShopItemList.ItemType.Armor_1), 0, armorShop);
+        CreateItemButton(ShopItemList.ItemType.Armor_2, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_2), "+45 max health", ShopItemList.GetCost(ShopItemList.ItemType.Armor_2), 1, armorShop);
+        CreateItemButton(ShopItemList.ItemType.Armor_3, ShopItemList.GetSprite(ShopItemList.ItemType.Armor_3), "+70 max health", ShopItemList.GetCost(ShopItemList.ItemType.Armor_3), 2, armorShop);
 
-        CreateItemButton(ShopItemList.ItemType.Sword_1, ShopItemList.GetSprite(ShopItemList.ItemType.Sword_1), "Sword 1", ShopItemList.GetCost(ShopItemList.ItemType.Sword_1), 0, swordShop);
-        CreateItemButton(ShopItemList.ItemType.Sword_2, ShopItemList.GetSprite(ShopItemList.ItemType.Sword_2), "Sword 2", ShopItemList.GetCost(ShopItemList.ItemType.Sword_2), 1, swordShop);
-        CreateItemButton(ShopItemList.ItemType.Sword_3, ShopItemList.GetSprite(ShopItemList.ItemType.Sword_3), "Sword 3", ShopItemList.GetCost(ShopItemList.ItemType.Sword_3), 2, swordShop);
+        CreateItemButton(ShopItemList.ItemType.Sword_1, ShopItemList.GetSprite(ShopItemList.ItemType.Sword_1), "+20 attack damage", ShopItemList.GetCost(ShopItemList.ItemType.Sword_1), 0, swordShop);
+        CreateItemButton(ShopItemList.ItemType.Sword_2, ShopItemList.GetSprite(ShopItemList.ItemType.Sword_2), "+45 attack damage", ShopItemList.GetCost(ShopItemList.ItemType.Sword_2), 1, swordShop);
+        CreateItemButton(ShopItemList.ItemType.Sword_3, ShopItemList.GetSprite(ShopItemList.ItemType.Sword_3), "+70 attack damage", ShopItemList.GetCost(ShopItemList.ItemType.Sword_3), 2, swordShop);
 
-        CreateItemButton(ShopItemList.ItemType.Potion_1, ShopItemList.GetSprite(ShopItemList.ItemType.Potion_1), "Potion 1", ShopItemList.GetCost(ShopItemList.ItemType.Potion_1), 0, potionShop);
-        CreateItemButton(ShopItemList.ItemType.Potion_2, ShopItemList.GetSprite(ShopItemList.ItemType.Potion_2), "Potion 2", ShopItemList.GetCost(ShopItemList.ItemType.Potion_2), 1, potionShop);
-        CreateItemButton(ShopItemList.ItemType.Potion_3, ShopItemList.GetSprite(ShopItemList.ItemType.Potion_3), "Potion 3", ShopItemList.GetCost(ShopItemList.ItemType.Potion_3), 2, potionShop);
+        CreateItemButton(ShopItemList.ItemType.Potion_1, ShopItemList.GetSprite(ShopItemList.ItemType.Potion_1), "+20 HP", ShopItemList.GetCost(ShopItemList.ItemType.Potion_1), 0, potionShop);
+        CreateItemButton(ShopItemList.ItemType.Potion_2, ShopItemList.GetSprite(ShopItemList.ItemType.Potion_2), "+45 HP", ShopItemList.GetCost(ShopItemList.ItemType.Potion_2), 1, potionShop);
+        CreateItemButton(ShopItemList.ItemType.Potion_3, ShopItemList.GetSprite(ShopItemList.ItemType.Potion_3), "+70 HP", ShopItemList.GetCost(ShopItemList.ItemType.Potion_3), 2, potionShop);
     }
 
     // sets button's image, text, positions
@@ -56,13 +56,14 @@ public class UI_Shop : MonoBehaviour
         shopItemTransform.Find("itemImage").GetComponent<Image>().sprite = itemSprite;
         shopItemTransform.gameObject.SetActive(true);
 
+        // when this button is clicked -> TryBuyItem(itemName)
         shopItemTransform.GetComponent<Button>().onClick.AddListener(delegate { TryBuyItem(itemType, itemCost); });
-
     }
 
     private void TryBuyItem(ShopItemList.ItemType i, int itemCost)
     {
         SoundManager.PlaySound(soundEffectPlayer, GameAssets.i.buttonClick);
+
         // if it is not possible to replace the quickslot, it will not try to buy potion
         if (i == ShopItemList.ItemType.Potion_1 || i == ShopItemList.ItemType.Potion_2 || i == ShopItemList.ItemType.Potion_3)
         {
@@ -71,19 +72,22 @@ public class UI_Shop : MonoBehaviour
                 if(player.quickSlotItemAmount != 0) return;
             }
         }
-                    
-        if (player.TrySpend(itemCost)) // does player have enough money?
+
+        // if player can buy item
+        if (player.TrySpend(itemCost))
         {
+            // max health
             if(i == ShopItemList.ItemType.Armor_1 || i == ShopItemList.ItemType.Armor_2 || i == ShopItemList.ItemType.Armor_3)
             {
                 player.AddMaxHealth(ShopItemList.GetEffect(i));
             }
+            // damage
             else if(i == ShopItemList.ItemType.Sword_1 || i == ShopItemList.ItemType.Sword_2 || i == ShopItemList.ItemType.Sword_3)
             {
                 player.AddDamage(ShopItemList.GetEffect(i));
             }
-            
-            else // if item type is potion
+            // potion
+            else
             {
                 player.AddQuickSlotItem(i, ShopItemList.GetEffect(i));
             }

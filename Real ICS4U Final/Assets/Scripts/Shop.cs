@@ -8,7 +8,6 @@ public class Shop : MonoBehaviour
     public GameObject ShopTarget;
     private UI_Shop SIL;
 
-    // Start is called before the first frame update
     void Start()
     {
         SIL = ShopUI.GetComponent<UI_Shop>();

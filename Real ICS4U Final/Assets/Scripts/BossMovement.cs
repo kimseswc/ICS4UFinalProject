@@ -22,7 +22,6 @@ public class BossMovement : MonoBehaviour
     private Animator bossAnimator;
     private GameObject sword;
     private AudioSource audioSource;
-
     private bool inAgro = false;
     private bool canAttack = true;
     private bool canMove = true;
@@ -34,7 +33,6 @@ public class BossMovement : MonoBehaviour
     private TrailRenderer swordTrail;
     private ParticleSystem footDust;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -50,9 +48,9 @@ public class BossMovement : MonoBehaviour
         audioSource = transform.GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // player detection. changees inAgro true <--> false
         if (!inAgro && Mathf.Abs(player.transform.position.x - transform.position.x) < detectRadius)
         {
             SoundManager.PlaySound(audioSource, GameAssets.i.enemyAgroOn);
@@ -70,10 +68,12 @@ public class BossMovement : MonoBehaviour
 
         if(canAttack)
         {
+            // normal attack if player is close
             if (0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < attackRadius)
             {
                 StartCoroutine(Attack());
             }
+            // range(dash) attack if player is far
             else if(0 <= side * (player.transform.position.x - transform.position.x) && side * (player.transform.position.x - transform.position.x) < rangeAttackRadius)
             {
                 if (!isDashAttackCooldown) StartCoroutine(DashAttack());
@@ -83,13 +83,15 @@ public class BossMovement : MonoBehaviour
         if (inAgro && canMove)
         {
             bossAnimator.SetBool("BossWalking", true);
+
+            // boss jump when player is above than boss
             if (player.transform.position.y > transform.position.y && coll.wallSide == side && coll.onGround)
             {
                 SoundManager.PlaySound(audioSource, GameAssets.i.jump);
                 Jump();
             }
 
-            //walk to player
+            //walk to player, flip sprite to player's direction
             if (player.transform.position.x > transform.position.x && !coll.onRightWall)
             {
                 if (side == -1) Flip();
@@ -108,8 +110,8 @@ public class BossMovement : MonoBehaviour
             bossAnimator.SetBool("BossWalking", false);
         }
 
-        //if in attack range for certain time
-        //attack, damage player
+        // if dash attacking, if there is more than one collision with player
+        // deal dashAttackDamage to player only once
         if (isDashing && canDashAttack)
         {
             Collider2D[] cols = Physics2D.OverlapBoxAll(dashAttackBox.bounds.center, dashAttackBox.bounds.extents, 0f, LayerMask.GetMask("Player"));
@@ -139,18 +141,17 @@ public class BossMovement : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
-        //Vector3 theScale2 = attackPoint.localScale;
-        //theScale2.x *= -1;
-        //attackPoint.localScale = theScale2;
     }
 
     IEnumerator DashAttack()
     {
+        // prepare
         isDashAttackCooldown = true;
         canAttack = false;
         canMove = false;
         yield return new WaitForSeconds(1f);
 
+        // start dash
         SoundManager.PlaySound(audioSource, GameAssets.i.dashAttack);
         swordTrail.enabled = true;
         isDashing = true;
@@ -159,28 +160,43 @@ public class BossMovement : MonoBehaviour
         rb.velocity = new Vector2(side, 0) * dashSpeed;
         yield return new WaitForSeconds(0.5f);
 
+        // stop dash, wait
+        isDashing = false;
         rb.velocity = Vector2.zero;
         swordTrail.enabled = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
+        // move
         canAttack = true;
         canMove = true;
+        yield return new WaitForSeconds(8f);
 
-        yield return new WaitForSeconds(5f);
+        // can dash attack
         isDashAttackCooldown = false;
     }
 
     IEnumerator Attack()
     {
+        // stop moving
         canAttack = canMove = false;
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.4f);
+
+        // start animation
         SoundManager.PlaySound(audioSource, GameAssets.i.swordAttack);
         swordAnimator.SetTrigger("Attack");
         swordTrail.enabled = true;
         yield return new WaitForSeconds(0.1f);
+
+        // get player hitbox collision. if collision detected, attack
         Collider2D[] cols = Physics2D.OverlapBoxAll(bc.bounds.center, bc.bounds.extents, 0f, LayerMask.GetMask("Player"));
-        foreach (Collider2D c in cols) c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
+        foreach (Collider2D c in cols)
+        {
+            c.GetComponent<CharacterController2D>().TakeDamage(attackDamage);
+            break;
+        }
         yield return new WaitForSeconds(0.7f);
+
+        // move
         canAttack = canMove = true;
         swordTrail.enabled = false;
     }

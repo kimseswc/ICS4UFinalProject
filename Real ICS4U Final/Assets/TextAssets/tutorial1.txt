@@ -1,0 +1,4 @@
+Tutorial
+press the arrow keys to move left and right
+Tutorial
+you can press 'x' in front of NPCs to get info
